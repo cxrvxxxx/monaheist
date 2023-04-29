@@ -5,6 +5,6 @@
     <title>Home | MonaHeist</title>
 </head>
 <body>
-    <?php include 'indludes/header.php' ?>
+    <?php include 'includes/header.php' ?>
 </body>
 </html>
