@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include 'includes/meta.php' ?>
-    <title>Home | MonaHeist</title>
+    <?php $title="Home | MonaHeist"; require_once 'includes/meta.php' ?>
 </head>
 <body>
-    <?php include 'includes/header.php' ?>
+    <?php require_once 'includes/header.php' ?>
+
+    <?php require_once 'includes/footer.php' ?>
 </body>
 </html>

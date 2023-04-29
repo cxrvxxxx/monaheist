@@ -1,3 +1,8 @@
-<header>
-    <h1>Hello World!</h1>
-</header>
+<nav class="navi navbar sticky-top navbar-expand-lg bg-dark" data-bs-theme="dark">
+  <div class="d-flex px-2 mx-2">
+    <a href="#" class="navbar-text navbar-brand h1">MonaHeist</a>
+    <a href="#" class="navbar-text navbar-nav mx-2">Players</a>
+    <a href="#" class="navbar-text navbar-nav mx-2">Devs & Mods</a>
+    <a href="#" class="navbar-text navbar-nav mx-2">Shop</a>
+  </div>
+</nav>
