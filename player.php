@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php $title="Shop | MonaHeist"; require_once 'includes/meta.php' ?>
+    <?php $title="Player | MonaHeist"; require_once 'includes/meta.php' ?>
 </head>
 <body>
     <?php require_once 'includes/header.php' ?>
@@ -16,40 +16,45 @@
  
             <center>
                 <p style="color:white">
-                    <h5>List of Shops</h5>
+                    <h5>List of Players</h5>
                 </p>
             </center>
  
             <div> 
                 <?php 
                     require_once 'includes/db.php'; 
-                    $resultset = $mysqli->query("SELECT * from tblShop") or die($mysqli->error); ?> 
+                    $resultset = $mysqli->query("SELECT * from tblPlayer") or die($mysqli->error); ?> 
                 
                 <table id="tblStudentRecords " class="table table-striped table-bordered table-sm" cellspacing="0" width="100%"> 
                     <thead> 
                         <tr>
-                            <th>Shop ID</th>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Date Created</th>
+                            <th>Player ID</th>
+                            <th>Level</th>
+                            <th>Experience</th>
+                            <th>Cash</th>
+                            <th>Bank ID</th>
+                            <th>Date Joined</th>
                         </tr> 
                     </thead>
                     
                     <tbody> 
                         <?php while($row = $resultset->fetch_assoc()): ?> 
                             <tr> 
-                                <td><?php echo $row['shopID'] ?></td> 
-                                <td><?php echo $row['name'] ?></td> 
-                                <td><?php echo $row['description'] ?></td> 
-                                <td><?php echo $row['createDate'] ?></td> 
+                                <td><?php echo $row['playerId'] ?></td> 
+                                <td><?php echo $row['level'] ?></td> 
+                                <td><?php echo $row['experience'] ?></td> 
+                                <td><?php echo $row['cash'] ?></td> 
+                                <td><?php echo $row['bankId'] ?></td>
+                                <td><?php echo $row['joinDate'] ?></td>
                                 <td> <a href = "">VIEW</a> <a href = "">DELETE</a> </td> 
                             </tr> <?php endwhile;?> 
                     </tbody> 
                 </table> 
-                <form method="post" action="addShop.php">
-                    <button type="submit" class="btn btn-info">Add New Record</button>
+                <form method="post" action="addPlayer.php">
+                    <button type="submit" class="btn btn-primary">Add New Record</button>
                 </form>
             </div> 
+            
         </div>
     <?php require_once 'includes/footer.php' ?>
 </body>
