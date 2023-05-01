@@ -50,7 +50,6 @@
                     <button type="submit" class="btn btn-info">Add New Record</button>
                 </form>
             </div> 
-            
         </div>
     <?php require_once 'includes/footer.php' ?>
 </body>
