@@ -1,3 +1,7 @@
+<?php 
+    require_once 'classes/dbhelper.php';
+    $dbh = new DBHelper();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,15 +25,12 @@
             </center>
 
             <div> 
-                <?php 
-                    require_once 'includes/db.php'; 
-                    $resultset = $mysqli->query("SELECT * from tblDeveloper") or die($mysqli->error); ?> 
+                <?php $resultset = $dbh -> getAllDevelopers(); ?> 
                 
                 <table id="tblStudentRecords " class="table table-striped table-bordered table-sm" cellspacing="0" width="100%"> 
                     <thead> 
                         <tr>
                             <th>Developer ID</th>
-                            <th>Player ID</th>
                             <th>Level</th>
                             <th>Date Joined</th>
                         </tr> 
@@ -38,8 +39,7 @@
                     <tbody> 
                         <?php while($row = $resultset->fetch_assoc()): ?> 
                             <tr> 
-                                <td><?php echo $row['devId'] ?></td> 
-                                <td><?php echo $row['playerId'] ?></td> 
+                                <td><?php echo $row['id'] ?></td>
                                 <td><?php echo $row['level'] ?></td> 
                                 <td><?php echo $row['dateJoined'] ?></td> 
                                 <td> <a href = "">VIEW</a> <a href = "">DELETE</a> </td> 
@@ -47,7 +47,7 @@
                     </tbody> 
                 </table> 
                 <form method="post" action="adddev.php">
-                    <button type="submit" class="btn btn-dark">Add New Record</button>
+                    <button type="submit" class="btn btn-info">Add New Record</button>
                 </form>
             </div> 
             <br><br>
@@ -58,15 +58,12 @@
             </center>
 
             <div> 
-                <?php 
-                    require_once 'includes/db.php'; 
-                    $resultset = $mysqli->query("SELECT * from tblModerator") or die($mysqli->error); ?> 
+                <?php $resultset = $dbh -> getAllModerators(); ?> 
                 
                 <table id="tblStudentRecords " class="table table-striped table-bordered table-sm" cellspacing="0" width="100%"> 
                     <thead> 
                         <tr>
                             <th>Moderator ID</th>
-                            <th>Player ID</th>
                             <th>Level</th>
                             <th>Date Joined</th>
                         </tr> 
@@ -75,8 +72,7 @@
                     <tbody> 
                         <?php while($row = $resultset->fetch_assoc()): ?> 
                             <tr> 
-                                <td><?php echo $row['modId'] ?></td> 
-                                <td><?php echo $row['playerId'] ?></td> 
+                                <td><?php echo $row['id'] ?></td>
                                 <td><?php echo $row['level'] ?></td> 
                                 <td><?php echo $row['dateJoined'] ?></td> 
                                 <td> <a href = "">VIEW</a> <a href = "">DELETE</a> </td> 
@@ -84,7 +80,7 @@
                     </tbody> 
                 </table> 
                 <form method="post" action="addmod.php">
-                    <button type="submit" class="btn btn-dark">Add New Record</button>
+                    <button type="submit" class="btn btn-info">Add New Record</button>
                 </form>
             </div> 
         </div>

@@ -132,9 +132,71 @@ class DBHelper {
         return mysqli_query($this -> conn, $sql);
     }
 
+    public function addPurchase(Perk $perk, int $quantity, Player $buyer) {
+        $sql = "INSERT INTO tblPurchase (perkId, quantity, buyerId) VALUES (".$perk -> getId().", ".$quantity.", ".$buyer -> getId().")";
+        mysqli_query($this -> conn, $sql);
+    }
+
+    public function getAllPlayers() {
+        $sql = "SELECT * FROM tblPlayer";
+        return mysqli_query($this -> conn, $sql);
+    }
+
     public function getAllPurchases() {
         $sql = "SELECT * FROM tblPurchase";
         return mysqli_query($this -> conn, $sql);
+    }
+
+    public function getAllShops() {
+        $sql = "SELECT * FROM tblShop";
+        return mysqli_query($this -> conn, $sql);
+    }
+
+    public function getAllDevelopers() {
+        $sql = "SELECT * FROM tblDeveloper";
+        return mysqli_query($this -> conn, $sql);
+    }
+
+    public function getAllModerators() {
+        $sql = "SELECT * FROM tblModerator";
+        return mysqli_query($this -> conn, $sql);
+    }
+
+    public function getPerkByName($perkName) {
+        $sql = "SELECT * FROM tblPerk WHERE name=".$perkName;
+        $resultset = mysqli_query($this -> conn, $sql);
+
+        $row = $resultset -> fetch_assoc();
+
+        if (!$row) return null;
+
+        return new Perk(
+            $row['id'],
+            $row['name'],
+            $row['description'],
+            $row['expMultiplier'],
+            $row['cashMultiplier'],
+            $row['devId'],
+            $row['dateCreated']
+        );
+    }
+
+    public function getPlayerById(int $playerId) {
+        $sql = "SELECT * FROM tblPlayer WHERE id=".$playerId;
+        $resultset = mysqli_query($this -> conn, $sql);
+
+        $row = $resultset -> fetch_assoc();
+
+        if (!$row) return null;
+
+        return new Player(
+            $row['id'],
+            $row['level'],
+            $row['experience'],
+            $row['cash'],
+            $row['bankId'],
+            $row['dateJoined']
+        );
     }
 }
 ?>

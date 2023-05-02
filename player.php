@@ -1,3 +1,7 @@
+<?php 
+    require_once 'classes/dbhelper.php';
+    $dbh = new DBHelper();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,9 +25,7 @@
             </center>
  
             <div> 
-                <?php 
-                    require_once 'includes/db.php'; 
-                    $resultset = $mysqli->query("SELECT * from tblPlayer") or die($mysqli->error); ?> 
+                <?php $resultset = $dbh -> getAllPlayers(); ?> 
                 
                 <table id="tblStudentRecords " class="table table-striped table-bordered table-sm" cellspacing="0" width="100%"> 
                     <thead> 
@@ -40,12 +42,12 @@
                     <tbody> 
                         <?php while($row = $resultset->fetch_assoc()): ?> 
                             <tr> 
-                                <td><?php echo $row['playerId'] ?></td> 
+                                <td><?php echo $row['id'] ?></td> 
                                 <td><?php echo $row['level'] ?></td> 
                                 <td><?php echo $row['experience'] ?></td> 
                                 <td><?php echo $row['cash'] ?></td> 
                                 <td><?php echo $row['bankId'] ?></td>
-                                <td><?php echo $row['joinDate'] ?></td>
+                                <td><?php echo $row['dateJoined'] ?></td>
                                 <td> <a href = "">VIEW</a> <a href = "">DELETE</a> </td> 
                             </tr> <?php endwhile;?> 
                     </tbody> 
