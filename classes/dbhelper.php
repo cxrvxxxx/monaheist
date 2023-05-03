@@ -1,5 +1,23 @@
 <?php
+require_once("player.php");
+
 class DBHelper {
+    /*
+    Class for handling Database-related operations
+
+    Attributes:
+        - conn
+            - Connection object
+            Return:
+                - Union: mysqli, null
+
+    Methods:
+        - init_db()
+            - Initializes database. Creates all necessary tables.
+            Return:
+                - None
+    
+    */
     private $conn;
 
     public function __construct() {
@@ -139,7 +157,22 @@ class DBHelper {
 
     public function getAllPlayers() {
         $sql = "SELECT * FROM tblPlayer";
-        return mysqli_query($this -> conn, $sql);
+
+        $resultset =  mysqli_query($this -> conn, $sql);
+
+        $players = array();
+        while ($row = $resultset -> fetch_assoc() or die($this -> conn -> error)) {
+            $players[] = new Player(
+                $row['id'],
+                $row['level'],
+                $row['experience'],
+                $row['cash'],
+                $row['bankId'],
+                $row['dateJoined'],
+            );
+        }
+
+        return $players;
     }
 
     public function getAllPurchases() {

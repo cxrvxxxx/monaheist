@@ -7,7 +7,7 @@ class Player {
     private $bankId;
     private $dateJoined;
     
-    public function __construct($id, $level, $experience, $cash, $bankid, $dateJoined) {
+    public function __construct($id, $level, $experience, $cash, $bankId, $dateJoined) {
         $this -> id = $id;
         $this -> level = $level;
         $this -> experience = $experience;
