@@ -1,21 +1,61 @@
 <?php
-require_once("player.php");
+include("player.php");
+include("shoplisting.php");
+include("perk.php");
+include("shop.php");
 
 class DBHelper {
     /*
     Class for handling Database-related operations
 
     Attributes:
-        - conn
-            - Connection object
+        conn
+            - Connection object.
             Return:
                 - Union: mysqli, null
 
     Methods:
-        - init_db()
+        init_db()
             - Initializes database. Creates all necessary tables.
             Return:
                 - None
+
+        getAllShopListings()
+            - Fetches all shop listing entries from the database.
+            Return:
+                - Array: ShopListing
+
+        getShopListingById()
+            - Fetches a shop listing entry matching the specified ID.
+            Parameters:
+                id
+                    - ID of the entry to fetch.
+            Return:
+                - Union: ShopListing, null
+
+        addShopListing()
+            - Adds a shop listing entry to the database.
+            Parameters:
+                perk
+                    - Perk being listed for sale.
+                shop
+                    - Shop where the perk is for sale.
+                stock
+                    - Quantity of perk for sale.
+                price
+                    - Selling price,
+            Return:
+                - null
+
+        updateShopListing()
+            - Updates a shop listing record in the database.
+            Parameters:
+                shopListing
+                    - Updated shop listing
+            
+            Return:
+                - null
+                
     
     */
     private $conn;
@@ -147,7 +187,60 @@ class DBHelper {
 
     public function getAllShopListings() {
         $sql = "SELECT * FROM tblShopListing";
-        return mysqli_query($this -> conn, $sql);
+        
+        $resultset = mysqli_query($this -> conn, $sql);
+
+        $listings = array();
+
+        while($row = $resultset -> fetch_assoc()) {
+            $listings[] = new ShopListing(
+                $row['id'],
+                $row['perkId'],
+                $row['shopId'],
+                $row['stock'],
+                $row['price'],
+                $row['dateAdded']
+            );
+        }
+
+        return $listings;
+    }
+
+    public function getShopListingById($id) {
+        $sql = "SELECT * FROM tblShopListing WHERE id=".$id;
+
+        $resultset = mysqli_query($this -> conn, $sql);
+
+        $row = $resultset -> fetch_assoc();
+
+        if (!$row) return;
+
+        return new ShopListing(
+            $row['id'],
+            $row['perkId'],
+            $row['shopId'],
+            $row['stock'],
+            $row['price'],
+            $row['dateAdded']
+        );
+    }
+
+    public function addShopListing(Perk $perk, Shop $shop, int $stock, int $price) {
+        $sql = "INSERT INTO tblShopListing (perkId, shopId, stock, price, dateAdded) VALUES (".$perk -> getId().", ".$shop -> getId().", ".$stock.", ".$price.", NOW())";
+
+        mysqli_query($this -> conn, $sql);
+    }
+
+    public function updateShopListing(ShopListing $shopListing) {
+        $sql = "UPDATE tblShopListing SET stock=".$shopListing -> getStock().", price=".$shopListing -> getPrice()." WHERE id=".$shopListing -> getId();
+
+        mysqli_query($this -> conn, $sql);
+    }
+
+    public function deleteShopListing(ShopListing $shopListing) {
+        $sql = "DELETE FROM tblShopListing WHERE id=".$shopListing -> getId();
+
+        mysqli_query($this -> conn, $sql);
     }
 
     public function addPurchase(Perk $perk, int $quantity, Player $buyer) {
@@ -161,18 +254,49 @@ class DBHelper {
         $resultset =  mysqli_query($this -> conn, $sql);
 
         $players = array();
-        while ($row = $resultset -> fetch_assoc() or die($this -> conn -> error)) {
+        while ($row = $resultset -> fetch_assoc()) {
             $players[] = new Player(
                 $row['id'],
                 $row['level'],
                 $row['experience'],
                 $row['cash'],
                 $row['bankId'],
-                $row['dateJoined'],
+                $row['dateJoined']
             );
         }
 
         return $players;
+    }
+
+    public function getPlayerById(int $id) {
+        $sql = "SELECT * FROM tblPlayer WHERE id=".$id;
+
+        $resultset = mysqli_query($this -> conn, $sql);
+
+        $row = $resultset -> fetch_assoc();
+
+        if (!$row) return;
+
+        return new Player(
+            $row['id'],
+            $row['level'],
+            $row['experience'],
+            $row['cash'],
+            $row['bankId'],
+            $row['dateJoined']
+        );
+    }
+
+    public function updatePlayer(Player $player) {
+        $sql = "UPDATE tblPlayer SET level=".$player -> getLevel().", experience=".$player -> getExperience().", cash=".$player -> getCash();
+
+        mysqli_query($this -> conn, $sql);
+    }
+
+    public function deletePlayer(Player $player) {
+        $sql = "DELETE FROM tblPlayer WHERE id=".$player -> getId();
+
+        mysqli_query($this -> conn, $sql);
     }
 
     public function getAllPurchases() {
@@ -211,24 +335,6 @@ class DBHelper {
             $row['cashMultiplier'],
             $row['devId'],
             $row['dateCreated']
-        );
-    }
-
-    public function getPlayerById(int $playerId) {
-        $sql = "SELECT * FROM tblPlayer WHERE id=".$playerId;
-        $resultset = mysqli_query($this -> conn, $sql);
-
-        $row = $resultset -> fetch_assoc();
-
-        if (!$row) return null;
-
-        return new Player(
-            $row['id'],
-            $row['level'],
-            $row['experience'],
-            $row['cash'],
-            $row['bankId'],
-            $row['dateJoined']
         );
     }
 }

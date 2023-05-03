@@ -25,7 +25,7 @@
             </center>
  
             <div> 
-                <?php $resultset = $dbh -> getAllPlayers(); ?> 
+                <?php $players = $dbh -> getAllPlayers(); ?> 
                 
                 <table id="tblStudentRecords " class="table table-striped table-bordered table-sm" cellspacing="0" width="100%"> 
                     <thead> 
@@ -40,16 +40,16 @@
                     </thead>
                     
                     <tbody> 
-                        <?php while($row = $resultset->fetch_assoc()): ?> 
+                        <?php foreach($players as $player): ?> 
                             <tr> 
-                                <td><?php echo $row['id'] ?></td> 
-                                <td><?php echo $row['level'] ?></td> 
-                                <td><?php echo $row['experience'] ?></td> 
-                                <td><?php echo $row['cash'] ?></td> 
-                                <td><?php echo $row['bankId'] ?></td>
-                                <td><?php echo $row['dateJoined'] ?></td>
+                                <td><?php echo $player -> getId(); ?></td> 
+                                <td><?php echo $player -> getLevel(); ?></td> 
+                                <td><?php echo $player -> getExperience(); ?></td> 
+                                <td><?php echo $player -> getCash(); ?></td> 
+                                <td><?php echo $player -> getBankId(); ?></td>
+                                <td><?php echo $player -> getDateJoined(); ?></td>
                                 <td> <a href = "">VIEW</a> <a href = "">DELETE</a> </td> 
-                            </tr> <?php endwhile;?> 
+                            </tr> <?php endforeach;?> 
                     </tbody> 
                 </table> 
                 <form method="post" action="addPlayer.php">
