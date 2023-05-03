@@ -3,6 +3,9 @@ include("player.php");
 include("shoplisting.php");
 include("perk.php");
 include("shop.php");
+include("purchase.php");
+include("developer.php");
+include("moderator.php");
 
 class DBHelper {
     /*
@@ -55,7 +58,100 @@ class DBHelper {
             
             Return:
                 - null
+
+        deleteShopListing()
+            - Deletes a shop listing record from the database.
+            Parameters:
+                shopListing
+                    - The record to delete.
+            
+            Return:
+                - null
                 
+        getAllPlayers()
+            - Fetches all players from the database.
+            Return:
+                - Array: Player
+
+        addPlayer()
+            - Adds a player to the database.
+            Return:
+                - null
+
+        updatePlayer()
+            - Updates a player on the database.
+            Parameters:
+                player
+                    - Updated player
+
+            Return:
+                - null
+
+        deletePlayer()
+            - Deletes a player from the database.
+            Parameters:
+                player
+                    - The player to delete.
+            
+            Return:
+                - null
+
+        getAllPurchases()
+            - Fetches all purchases from the database.
+            Return:
+                - Array: Purchase
+
+        getPurchaseById()
+            - Fetches a purchased matching the specified ID.
+            Parameters:
+                id
+                    - The ID of the purchase to fetch.
+
+            Return:
+                - Union: Purchase, null
+
+        addPurchase()
+            - Adds a purchase record to the database.
+            Parameters:
+                perk
+                    - The perk purchased.
+                quantity
+                    - Amount of perk purchased.
+                buyer
+                    - The player who purchased the perk.
+
+            Return:
+                - null
+
+        getAllShops()
+            - Fetches all shops from the database.
+            Return:
+                - Array: Shop
+
+        getShopById()
+            - Fetches a shop from the database matching the ID.
+            Paraeters:
+                id
+                    - The ID of the shop to search.
+            
+            Return:
+                - Union: Shop, null
+
+        getAllDevelopers()
+            - Fetches all developers from the database.
+            Return:
+                - Array: Developer        
+
+        getDeveloperById()
+            - Fetches a developer matching the ID from the database.
+            Parameters:
+                id
+                    - The ID of the developer to search.
+
+            Return:
+                - Union: Developer, null
+
+        getAllDevelopers()
     
     */
     private $conn;
@@ -243,11 +339,6 @@ class DBHelper {
         mysqli_query($this -> conn, $sql);
     }
 
-    public function addPurchase(Perk $perk, int $quantity, Player $buyer) {
-        $sql = "INSERT INTO tblPurchase (perkId, quantity, buyerId) VALUES (".$perk -> getId().", ".$quantity.", ".$buyer -> getId().")";
-        mysqli_query($this -> conn, $sql);
-    }
-
     public function getAllPlayers() {
         $sql = "SELECT * FROM tblPlayer";
 
@@ -287,6 +378,14 @@ class DBHelper {
         );
     }
 
+    public function addPlayer() {
+        $bankId = $this -> addBank();
+        
+        $sql = "INSERT INTO tblPlayer (level, experience, cash, bankId, dateJoined) VALUES (1, 0, 0, ".$bankId.", NOW())";
+        
+        mysqli_query($this -> conn, $sql);
+    }
+
     public function updatePlayer(Player $player) {
         $sql = "UPDATE tblPlayer SET level=".$player -> getLevel().", experience=".$player -> getExperience().", cash=".$player -> getCash();
 
@@ -294,6 +393,9 @@ class DBHelper {
     }
 
     public function deletePlayer(Player $player) {
+        $bank = $this -> getBankById($player -> getBankId());
+        $this -> deleteBank($bank);
+
         $sql = "DELETE FROM tblPlayer WHERE id=".$player -> getId();
 
         mysqli_query($this -> conn, $sql);
@@ -301,24 +403,183 @@ class DBHelper {
 
     public function getAllPurchases() {
         $sql = "SELECT * FROM tblPurchase";
-        return mysqli_query($this -> conn, $sql);
+
+        $resultset =  mysqli_query($this -> conn, $sql);
+
+        $purchases = array();
+        while($row = $resultset -> fetch_assoc()) {
+            $purchases[] = new Purchase(
+                $row['id'],
+                $row['perkId'],
+                $row['quantity'],
+                $row['buyerId'],
+                $row['datePurchased']
+            );
+        }
+
+        return $purchases;
+    }
+
+    public function getPurchaseById(int $id) {
+        $sql = "SELECT * FROM tblPurchase WHERE id=".$id;
+
+        $resultset = mysqli_query($this -> conn, $sql);
+
+        $row = $resultset -> fetch_assoc();
+
+        if(!$row) return;
+
+        return new Purchase(
+            $row['id'],
+            $row['perkId'],
+            $row['quantity'],
+            $row['buyerId'],
+            $row['datePurchased']
+        );
+    }
+
+    public function addPurchase(Perk $perk, int $quantity, Player $buyer) {
+        $sql = "INSERT INTO tblPurchase (perkId, quantity, buyerId) VALUES (".$perk -> getId().", ".$quantity.", ".$buyer -> getId().")";
+        
+        mysqli_query($this -> conn, $sql);
     }
 
     public function getAllShops() {
         $sql = "SELECT * FROM tblShop";
-        return mysqli_query($this -> conn, $sql);
+        
+        $resultset = mysqli_query($this -> conn, $sql);
+
+        $shops = array();
+        while($row = $resultset -> fetch_assoc()) {
+            $shops[] = new Shop(
+                $row['id'],
+                $row['name'],
+                $row['description'],
+                $row['dateCreated']
+            );
+        }
+
+        return $shops;
+    }
+
+    public function getShopById(int $id) {
+        $sql = "SELECT * FROM tblShop WHERE id=".$id;
+
+        $resultset = mysqli_query($this -> conn, $sql);
+
+        $row = $resultset -> fetch_assoc();
+
+        if(!$row) return;
+
+        return new Shop(
+            $row['id'],
+            $row['name'],
+            $row['description'],
+            $row['dateCreated']
+        );
     }
 
     public function getAllDevelopers() {
         $sql = "SELECT * FROM tblDeveloper";
-        return mysqli_query($this -> conn, $sql);
+        
+        $resultset = mysqli_query($this -> conn, $sql);
+
+        $developers = array();
+        while($row = $resultset -> fetch_assoc()) {
+            $developers[] = new Developer(
+                $row['id'],
+                $row['level'],
+                $row['dateJoined']
+            );
+        }
+
+        return $developers;
+    }
+
+    public function getDeveloperById(int $id) {
+        $sql = "SELECT * FROM tblDeveloper WHERE id=".$id;
+
+        $resultset = mysqli_query($this -> conn, $sql);
+
+        $row = $resultset -> fetch_assoc();
+
+        if(!$row) return;
+
+        return new Developer(
+            $row['id'],
+            $row['level'],
+            $row['dateJoined']
+        );
+    }
+
+    public function addDeveloper(Player $player, int $level) {
+        $sql = "INSERT INTO tblDeveloper (level, dateJoined) VALUES (".$level.", ".$player -> getId().")";
+
+        mysqli_query($this -> conn, $sql);
+    }
+
+    public function updateDeveloper(Developer $developer) {
+        $sql = "UPDATE tblDeveloper SET level=".$developer -> getLevel()." WHERE id=".$developer -> getId();
+
+        mysqli_query($this -> conn, $sql);
+    }
+
+    public function deleteDeveloper(Developer $developer) {
+        $sql = "DELETE FROM tblDeveloper WHERE id=?".$developer -> getId();
+
+        mysqli_query($this -> conn, $sql);
     }
 
     public function getAllModerators() {
         $sql = "SELECT * FROM tblModerator";
-        return mysqli_query($this -> conn, $sql);
+        
+        $resultset = mysqli_query($this -> conn, $sql);
+
+        $moderators = array();
+        while($row = $resultset -> fetch_assoc()) {
+            $moderators[] = new Moderator(
+                $row['id'],
+                $row['level'],
+                $row['dateJoined']
+            );
+        }
+
+        return $moderators;
     }
 
+    public function getModeratorById(int $id) {
+        $sql = "SELECT * FROM tblModerator WHERE id=".$id;
+
+        $resultset = mysqli_query($this -> conn, $sql);
+
+        $row = $resultset -> fetch_assoc();
+
+        if(!$row) return;
+
+        return new Moderator(
+            $row['id'],
+            $row['level'],
+            $row['dateJoined']
+        );
+    }
+
+    public function addModerator(Player $player, int $level) {
+        $sql = "INSERT INTO tblModerator (level, dateJoined) VALUES (".$level.", ".$player -> getId().")";
+
+        mysqli_query($this -> conn, $sql);
+    }
+
+    public function updateModerator(Moderator $moderator) {
+        $sql = "UPDATE tblModerator SET level=".$moderator -> getLevel()." WHERE id=".$moderator -> getId();
+
+        mysqli_query($this -> conn, $sql);
+    }
+
+    public function deleteModerator(Moderator $moderator) {
+        $sql = "DELETE FROM tblModerator WHERE id=?".$moderator -> getId();
+
+        mysqli_query($this -> conn, $sql);
+    }
     public function getPerkByName($perkName) {
         $sql = "SELECT * FROM tblPerk WHERE name=".$perkName;
         $resultset = mysqli_query($this -> conn, $sql);
@@ -336,6 +597,41 @@ class DBHelper {
             $row['devId'],
             $row['dateCreated']
         );
+    }
+
+    public function getBankById(int $id) {
+        $sql = "SELECT * FROM tblBank WHERE id=".$id;
+
+        $resultset = mysqli_query($this -> conn, $sql);
+
+        $row = $resultset -> fetch_assoc();
+
+        if(!$row) return;
+
+        return new Bank(
+            $row['id'],
+            $row['balance']
+        );
+    }
+
+    public function addBank() {
+        $sql = "SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA=dbMonaHeist AND TABLE_NAME=tblPlayer";
+        $resultset = mysqli_query($this -> conn, $sql);
+
+        $row = $resultset -> fetch_assoc();
+
+        $bankId = $row['AUTO_INCREMENT'];
+
+        $sql = "INSERT INTO tblBank VALUES (".$bankId.", 0)";
+        mysqli_query($this -> conn, $sql);
+
+        return $bankId;
+    }
+
+    public function deleteBank(Bank $bank) {
+        $sql = "DELETE FROM tblBank WHERE id=?".$bank -> getId();
+
+        mysqli_query($this -> conn, $sql);
     }
 }
 ?>
