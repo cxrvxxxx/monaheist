@@ -1,3 +1,10 @@
+<?php
+require_once 'classes/dbhelper.php';
+$dbh = new DBHelper();
+
+$players = $dbh->getAllPlayers();
+$perks = $dbh->getAllPerks();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,33 +16,43 @@
         <div style='background-color:#ffff00'> 
             <center> 
                 <p style="color:white">
-                    <h2>Mona Heist</h2> 
+                    <h2>MonaHeist</h2> 
                 </p>
             </center> 
          </div> 
          <center>
                 <p style="color:white">
-                    <h5>Add new Purchase</h5>
+                    <h5>Add Purchase</h5>
                 </p>
         </center>
-        <form action="purchases/addpurchase_submit.php" method="post">
+        <form method="POST" action="addpurchase_submit.php">
             <div class="form-group">
-                <label for="inputPerkName">Perk</label>
-                <input name="perk" type="text" class="form-control" id="inputPerkName">
+                <label for="inputPerkId">Perk</label>
+                <select name="perkId" class="form-select" id="inputPerkId">
+                    <option>Choose perk...</option>
+                    <?php foreach ($perks as $perk): ?>
+                        <option value="<?php echo $perk->getId() ?>"><?php echo $perk->getName() ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
             <br>
             <div class="form-group">
                 <label for="inputQuantity">Quantity</label>
-                <input name="quantity" type="text" class="form-control" id="inputQuantity">
+                <input name="quantity" type="number" class="form-control" id="inputQuantity" value="1">
             </div>
             <br>
             <div class="form-group">
-                <label for="inputBuyerName">Buyer</label>
-                <input name="buyer" type="text" class="form-control" id="inputBuyerName">
+                <label for="inputBuyerId">Buyer</label>
+                <select name="buyerId" class="form-select" id="inputBuyerId">
+                    <option>Select buyer...</option>
+                    <?php foreach ($players as $player): ?>
+                        <option value="<?php echo $player->getId() ?>"><?php echo $player->getId() ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
             <br>
+            <button type="submit" class="btn btn-success">Submit</button>
         </form>
-        <button type="submit" class="btn btn-success">Submit</button>
     </div>
     <?php require_once 'includes/footer.php' ?>
 </body>

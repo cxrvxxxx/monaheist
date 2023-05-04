@@ -43,6 +43,16 @@ class ShopListing
         return $this->dateAdded;
     }
 
+    public function setPerkId(int $perkId)
+    {
+        $this->perkId = $perkId;
+    }
+
+    public function setShopId(int $shopId)
+    {
+        $this->shopId = $shopId;
+    }
+
     public function setStock(int $stock)
     {
         if ($stock > 0)

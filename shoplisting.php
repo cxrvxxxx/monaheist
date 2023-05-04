@@ -59,13 +59,16 @@ $dbh = new DBHelper();
                             <?php echo $shopListing->getDateAdded(); ?>
                         </td>
                         <td>
-                            <form method="get" action="">
+                            <form method="POST" action="buyitem.php">
+                                <input type="hidden" name="id" value="<?php echo $shopListing->getId(); ?>">
                                 <button type="button" class="btn btn-info">Buy</button>
                             </form>
-                            <form method="get" action="">
-                                <button type="button" class="btn btn-light">Edit</button>
+                            <form method="POST" action="editshoplisting.php">
+                                <input type="hidden" name="id" value="<?php echo $shopListing->getId(); ?>">
+                                <button type="submit" class="btn btn-light">Edit</button>
                             </form>
-                            <form method="get" action="">
+                            <form method="POST" action="deleteshoplisting.php">
+                                <input type="hidden" name="id" value="<?php echo $shopListing->getId(); ?>">
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
                         </td>

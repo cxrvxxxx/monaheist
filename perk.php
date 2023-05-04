@@ -38,7 +38,6 @@ $dbh = new DBHelper();
                         <th>Description</th>
                         <th>Exp Multiplier</th>
                         <th>Cash Multiplier</th>
-                        <th>Developer</th>
                         <th>Date Created</th>
                     </tr>
                 </thead>
@@ -62,16 +61,15 @@ $dbh = new DBHelper();
                                 <?php echo "x" . $perk->getCashMultiplier(); ?>
                             </td>
                             <td>
-                                <?php echo $perk->getDevId(); ?>
-                            </td>
-                            <td>
                                 <?php echo $perk->getDateCreated(); ?>
                             </td>
                             <td>
-                                <form method="get" action="">
+                                <form method="POST" action="editperk.php">
+                                    <input type="hidden" name="id" value="<?php echo $perk->getId(); ?>">
                                     <button type="submit" class="btn btn-light">Edit</button>
                                 </form>
-                                <form method="get" action="">
+                                <form method="POST" action="deleteperk.php">
+                                    <input type="hidden" name="id" value="<?php echo $perk->getId(); ?>">
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
                             </td>
@@ -79,7 +77,9 @@ $dbh = new DBHelper();
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            <a href="addperk.php"> <button type="button" class="btn btn-info">Add Perk</button> </a>
+            <form method="POST" action="addperk.php">
+                <button type="submit" class="btn btn-info">Add Perk</button>
+            </form>
         </div>
     </div>
     <?php require_once 'includes/footer.php' ?>

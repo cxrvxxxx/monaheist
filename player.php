@@ -65,10 +65,12 @@ $dbh = new DBHelper();
                                 <?php echo $player->getDateJoined(); ?>
                             </td>
                             <td>
-                                <form method="get" action="">
+                                <form method="POST" action="editplayer.php">
+                                    <input type="hidden" name="id" value="<?php echo $player->getId(); ?>">
                                     <button type="submit" class="btn btn-light">Edit</button>
                                 </form>
-                                <form method="get" action="">
+                                <form method="POST" action="deleteplayer.php">
+                                    <input type="hidden" name="id" value="<?php echo $player->getId(); ?>">
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
                             </td>
@@ -76,7 +78,7 @@ $dbh = new DBHelper();
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            <form method="get" action="addplayer.php">
+            <form method="POST" action="addplayer.php">
                 <button type="submit" class="btn btn-info">Add Player</button>
             </form>
         </div>

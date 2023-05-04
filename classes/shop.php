@@ -31,12 +31,12 @@ class Shop
         return $this->dateCreated;
     }
 
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
     }
 
-    public function setDescription($desc)
+    public function setDescription(string $desc)
     {
         $this->description = $desc;
     }

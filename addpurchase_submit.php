@@ -2,15 +2,10 @@
 require_once("classes/dbhelper.php");
 $dbh = new DBHelper();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  // Retrieve the form data from the $_POST array
-  $perk = $_POST['perk'];
-  $quantity = $_POST['quantity'];
-  $buyer = $_POST['buyer'];
-}
+$perk = $dbh->getPerkById($_POST['perkId']);
+$buyer = $dbh->getPlayerById($_POST['buyerId']);
 
-$perk = $dbh->getPerkByName($perk);
-$buyer = $dbh->getPlayerById($buyer);
-
-$dbh->addPurchase($perk, $quantity, $buyer);
+$dbh->addPurchase($perk, $_POST['quantity'], $buyer);
+header("Location: purchases.php");
+exit();
 ?>

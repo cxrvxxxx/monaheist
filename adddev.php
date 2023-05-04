@@ -1,49 +1,54 @@
+<?php
+require_once 'classes/dbhelper.php';
+$dbh = new DBHelper();
+
+$players = $dbh->getAllPlayers();
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <?php $title="Add New Developer | MonaHeist"; require_once 'includes/meta.php' ?>
+    <?php $title = "Add New Developer | MonaHeist";
+    require_once 'includes/meta.php' ?>
 </head>
+
 <body>
     <?php require_once 'includes/header.php' ?>
     <div class="container">
-        <div style='background-color:#ffff00'> 
-            <center> 
+        <div style='background-color:#ffff00'>
+            <center>
                 <p style="color:white">
-                    <h2>Mona Heist</h2> 
+                <h2>Mona Heist</h2>
                 </p>
-            </center> 
-         </div> 
+            </center>
+        </div>
 
-         <center>
-                <p style="color:white">
-                    <h5>Add new developer</h5>
-                </p>
+        <center>
+            <p style="color:white">
+            <h5>Add new developer</h5>
+            </p>
         </center>
 
-        <form>
-            <div class="form-group">
-                <label for="inputDevId">Developer ID</label>
-                <input type="text" class="form-control" id="inputDevId">
-            </div>
-            <br>
+        <form method="POST" action="adddev_submit.php">
             <div class="form-group">
                 <label for="inputPlayerId">Player ID</label>
-                <input type="text" class="form-control" id="inputPlayerId">
+                <select type="number" name="id" class="form-select" id="inputPlayerId">
+                    <option>Select player...</option>
+                    <?php foreach ($players as $player): ?>
+                        <option value="<?php echo $player->getId() ?>"><?php echo $player->getId() ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
             <br>
             <div class="form-group">
-                <label for="inputlevel">Level</label>
-                <input type="text" class="form-control" id="inputlevel">
+                <label for="inputLevel">Level</label>
+                <input name="level" type="number" class="form-control" id="inputLevel" value="1">
             </div>
             <br>
-            <div class="form-group">
-                <label for="inputDateJoined">Date Joined</label>
-                <input type="text" class="form-control" id="inputDateJoined">
-            </div>
-            <br>
+            <button type="submit" class="btn btn-success">Submit</button>
         </form>
-        <button type="submit" class="btn btn-success">Submit</button>
     </div>
     <?php require_once 'includes/footer.php' ?>
 </body>
+
 </html>

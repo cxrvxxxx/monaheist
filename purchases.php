@@ -6,7 +6,7 @@ $dbh = new DBHelper();
 <html lang="en">
 
 <head>
-    <?php $title = "Shop | MonaHeist";
+    <?php $title = "Purchases | MonaHeist";
     require_once 'includes/meta.php' ?>
 </head>
 
@@ -16,7 +16,7 @@ $dbh = new DBHelper();
         <div style='background-color:#ffff00'>
             <center>
                 <p style="color:white">
-                <h2>Mona Heist</h2>
+                <h2>MonaHeist</h2>
                 </p>
             </center>
         </div>
@@ -55,7 +55,10 @@ $dbh = new DBHelper();
                             <?php echo $purchase->getDatePurchased(); ?>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-danger">Delete</button>
+                            <form method="POST" action="deletepurchase.php">
+                                <input type="hidden" name="id" value="<?php echo $purchase->getId(); ?>">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 <?php endforeach; ?>

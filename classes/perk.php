@@ -6,17 +6,15 @@ class Perk
     private string $description;
     private float $expMultiplier;
     private float $cashMultiplier;
-    private int $devId;
     private string $dateCreated;
 
-    public function __construct(int $id, string $name, string $description, float $expMultiplier, float $cashMultiplier, int $devId, string $dateCreated)
+    public function __construct(int $id, string $name, string $description, float $expMultiplier, float $cashMultiplier, string $dateCreated)
     {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
         $this->expMultiplier = $expMultiplier;
         $this->cashMultiplier = $cashMultiplier;
-        $this->devId = $devId;
         $this->dateCreated = $dateCreated;
     }
 
@@ -39,10 +37,6 @@ class Perk
     public function getCashMultiplier()
     {
         return $this->cashMultiplier;
-    }
-    public function getDevId()
-    {
-        return $this->devId;
     }
     public function getDateCreated()
     {

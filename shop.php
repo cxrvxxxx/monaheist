@@ -57,10 +57,12 @@ $dbh = new DBHelper();
                                 <?php echo $shop->getDateCreated(); ?>
                             </td>
                             <td>
-                                <form method="get" action="">
+                                <form method="POST" action="editshop.php">
+                                    <input type="hidden" name="id" value="<?php echo $shop->getId(); ?>">
                                     <button type="submit" class="btn btn-light">Edit</button>
                                 </form>
-                                <form method="get" action="">
+                                <form method="POST" action="deleteshop.php">
+                                    <input type="hidden" name="id" value="<?php echo $shop->getId(); ?>">
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
                             </td>
