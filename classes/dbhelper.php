@@ -369,9 +369,14 @@ class DBHelper
 
     public function addPurchase(Perk $perk, int $quantity, Player $buyer)
     {
-        $sql = "INSERT INTO tblPurchase (perkId, quantity, buyerId) VALUES (" . $perk->getId() . ", " . $quantity . ", " . $buyer->getId() . ")";
+        $sql = "INSERT INTO tblPurchase (perkId, quantity, buyerId, datePurchased) VALUES (" . $perk->getId() . ", " . $quantity . ", " . $buyer->getId() . ", NOW())";
+        $this->conn->query($sql);
+    }
 
-        mysqli_query($this->conn, $sql);
+    public function deletePurchase(Purchase $purchase) {
+        $sql = "DELETE FROM tblPurchase WHERE id=" . $purchase->getId();
+
+        $this->conn->query($sql);
     }
 
     public function getAllShops()
@@ -567,7 +572,6 @@ class DBHelper
                 $row['description'],
                 $row['expMultiplier'],
                 $row['cashMultiplier'],
-                $row['devId'],
                 $row['dateCreated']
             );
         }
@@ -591,14 +595,13 @@ class DBHelper
             $row['description'],
             $row['expMultiplier'],
             $row['cashMultiplier'],
-            $row['devId'],
             $row['dateCreated']
         );
     }
 
     public function getPerkByName($perkName)
     {
-        $sql = "SELECT * FROM tblPerk WHERE name=" . $perkName;
+        $sql = "SELECT * FROM tblPerk WHERE name='" . $perkName . "'";
         $resultset = mysqli_query($this->conn, $sql);
 
         $row = $resultset->fetch_assoc();
@@ -612,20 +615,19 @@ class DBHelper
             $row['description'],
             $row['expMultiplier'],
             $row['cashMultiplier'],
-            $row['devId'],
             $row['dateCreated']
         );
     }
 
-    public function addPerk(string $name, string $description, float $expMultiplier, float $cashMultiplier, int $devId)
+    public function addPerk(string $name, string $description, float $expMultiplier, float $cashMultiplier)
     {
-        $sql = "INSERT INTO tblPerk (name, description, expMultiplier, cashMultiplier, devId, dateCreated) VALUES ('" . $name . "', '" . $description . "', " . $expMultiplier . ", " . $cashMultiplier . ", " . $devId . ", NOW())";
+        $sql = "INSERT INTO tblPerk (name, description, expMultiplier, cashMultiplier, dateCreated) VALUES ('" . $name . "', '" . $description . "', " . $expMultiplier . ", " . $cashMultiplier . ", NOW())";
         mysqli_query($this->conn, $sql);
     }
 
     public function updatePerk(Perk $perk)
     {
-        $sql = "UPDATE tblPerk SET name=" . $perk->getName() . ", description=" . $perk->getDescription() . ", expMultiplier=" . $perk->getExpMultiplier() . ", cashMultiplier=" . $perk->getCashMultiplier() . ", devId=" . $perk->getDevId() . "WHERE id=" . $perk->getId();
+        $sql = "UPDATE tblPerk SET name='" . $perk->getName() . "', description='" . $perk->getDescription() . "', expMultiplier=" . $perk->getExpMultiplier() . ", cashMultiplier=" . $perk->getCashMultiplier() . " WHERE id=" . $perk->getId();
         mysqli_query($this->conn, $sql);
     }
 

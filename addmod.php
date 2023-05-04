@@ -33,6 +33,7 @@ $players = $dbh->getAllPlayers();
             <div class="form-group">
                 <label for="inputPlayerId">Player ID</label>
                 <select type="number" name="id" class="form-select" id="inputPlayerId">
+                    <option>Select player...</option>
                     <?php foreach ($players as $player): ?>
                         <option value="<?php echo $player->getId() ?>"><?php echo $player->getId() ?></option>
                     <?php endforeach; ?>

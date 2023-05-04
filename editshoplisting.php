@@ -2,31 +2,36 @@
 require_once 'classes/dbhelper.php';
 $dbh = new DBHelper();
 
+$shopListing = $dbh->getShopListingById($_POST['id']);
 $perks = $dbh->getAllPerks();
 $shops = $dbh->getAllShops();
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <?php $title="Add New Listing | MonaHeist"; require_once 'includes/meta.php' ?>
+    <?php $title = "Edit Listing | MonaHeist";
+    require_once 'includes/meta.php' ?>
 </head>
+
 <body>
     <?php require_once 'includes/header.php' ?>
     <div class="container">
-        <div style='background-color:#ffff00'> 
-            <center> 
+        <div style='background-color:#ffff00'>
+            <center>
                 <p style="color:white">
-                    <h2>Mona Heist</h2> 
+                <h2>Edit Listing</h2>
                 </p>
-            </center> 
-         </div> 
+            </center>
+        </div>
 
-         <center>
-                <p style="color:white">
-                    <h5>Add Listing</h5>
-                </p>
-        </center>
-        <form method="POST" action="addshoplisting_submit.php">
+        <form method="POST" action="editshoplisting_submit.php">
+            <div class="form-group">
+                <label for="inputShopListingId">ID</label>
+                <input name="id" type="number" class="form-control" id="inputShopListingId"
+                    value="<?php echo $shopListing->getId() ?>" readonly>
+            </div>
+            </br>
             <div class="form-group">
                 <label for="inputPerkId">Perk</label>
                 <select name="perkId" class="form-select" id="inputPerkId">
@@ -49,17 +54,25 @@ $shops = $dbh->getAllShops();
             <br>
             <div class="form-group">
                 <label for="inputStock">Stock</label>
-                <input name="stock" type="number" class="form-control" id="inputStock">
+                <input name="stock" type="number" class="form-control" id="inputStock"
+                    value="<?php echo $shopListing->getStock(); ?>">
             </div>
-            <br>
+            </br>
             <div class="form-group">
-                <label for="inputPrice">Price</label>
-                <input name="price" type="number" class="form-control" id="inputPrice">
+                <label for="inputPrice">price</label>
+                <input name="price" type="number" class="form-control" id="inputPrice"
+                    value="<?php echo $shopListing->getPrice(); ?>">
             </div>
-            <br>
-            <button type="submit" class="btn btn-success">Submit</button>
+            </br>
+            <div class="form-group">
+                <label for="inputDateAdded">Date Added</label>
+                <input name="dateAdded" type="text" class="form-control" id="inputDateAdded"
+                    value="<?php echo $shopListing->getDateAdded(); ?>" readonly>
+            </div>
+            </br>
+            <button type="submit" class="btn btn-success">Save</button>
         </form>
     </div>
-    <?php require_once 'includes/footer.php' ?>
 </body>
+
 </html>

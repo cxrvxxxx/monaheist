@@ -12,39 +12,34 @@
         <div style='background-color:#ffff00'>
             <center>
                 <p style="color:white">
-                <h2>Add New Bank Record</h2>
+                <h2>Add Perk</h2>
                 </p>
             </center>
         </div>
 
-        <form>
+        <form method="POST" action="addperk_submit.php">
             </br>
             <div class="form-group">
-                <label for="exampleFormControlInput1">Name</label>
-                <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="">
+                <label for="inputPerkName">Name</label>
+                <input name="name" type="text" class="form-control" id="inputPerkName" placeholder="">
             </div>
             </br>
             <div class="form-group">
-                <label for="exampleFormControlInput1">Description</label>
-                <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="">
+                <label for="inputDescription">Description</label>
+                <input name="description" type="text" class="form-control" id="inputDescription" placeholder="">
             </div>
             </br>
             <div class="form-group">
-                <label for="exampleFormControlInput1">Exp Multiplier</label>
-                <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="">
+                <label for="inputExpMult">Exp Multiplier</label>
+                <input name="expMultiplier" type="number" class="form-control" id="inputExpMult" placeholder="">
             </div>
             </br>
             <div class="form-group">
-                <label for="exampleFormControlInput1">Cash Multiplier</label>
-                <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="">
+                <label for="inputCashMult">Cash Multiplier</label>
+                <input name="cashMultiplier" type="number" class="form-control" id="inputCashMult" placeholder="">
             </div>
             </br>
-            <div class="form-group">
-                <label for="exampleFormControlInput1">Developer</label>
-                <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="">
-            </div>
-            </br>
-            <a href=""><button type="button" class="btn btn-success">Submit</button>
+            <button type="submit" class="btn btn-success">Submit</button>
         </form>
     </div>
 </body>
