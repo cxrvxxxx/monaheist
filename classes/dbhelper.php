@@ -293,13 +293,14 @@ class DBHelper
         return $perks;
     }
 
-    public function addPlayer()
+    public function addPlayer(): Player
     {
-        $bankId = $this->addBank();
+        $bank = $this->addBank();
 
-        $sql = "INSERT INTO tblPlayer (level, experience, cash, bankId, dateJoined) VALUES (1, 0, 0, " . $bankId . ", NOW())";
+        $sql = "INSERT INTO tblPlayer (level, experience, cash, bankId, dateJoined) VALUES (1, 0, 0, " . $bank->getId() . ", NOW())";
+        $this->conn->query($sql);
 
-        mysqli_query($this->conn, $sql);
+        return $this->getPlayerById($this->conn->insert_id);
     }
 
     public function updatePlayer(Player $player)
@@ -311,12 +312,19 @@ class DBHelper
 
     public function deletePlayer(Player $player)
     {
-        $bank = $this->getBankById($player->getBankId());
-        $this->deleteBank($bank);
+        $developer = $this->getDeveloperById($player->getId());
+        if ($developer)
+            $this->deleteDeveloper($developer);
+
+        $moderator = $this->getModeratorById($player->getId());
+        if ($moderator)
+            $this->deleteModerator($moderator);
 
         $sql = "DELETE FROM tblPlayer WHERE id=" . $player->getId();
+        $this->conn->query($sql);
 
-        mysqli_query($this->conn, $sql);
+        $bank = $this->getBankById($player->getBankId());
+        $this->deleteBank($bank);
     }
 
     public function getAllPurchases()
@@ -404,6 +412,27 @@ class DBHelper
         );
     }
 
+    public function addShop(string $name, string $description)
+    {
+        $sql = "INSERT INTO tblShop (name, description, dateCreated) VALUES ('" . $name . "', '" . $description . "', NOW())";
+        $this->conn->query($sql);
+    }
+
+    public function updateShop(Shop $shop)
+    {
+        $sql = "UPDATE tblShop SET name='" . $shop->getName() . "', description='" . $shop->getDescription() . "' WHERE id=" . $shop->getId();
+        $this->conn->query($sql);
+    }
+
+    public function deleteShop(Shop $shop)
+    {
+        $sql = "DELETE FROM tblShopListing WHERE shopId=" . $shop->getId();
+        $this->conn->query($sql);
+
+        $sql = "DELETE FROM tblShop WHERE id=" . $shop->getId();
+        $this->conn->query($sql);
+    }
+
     public function getAllDevelopers()
     {
         $sql = "SELECT * FROM tblDeveloper";
@@ -442,9 +471,8 @@ class DBHelper
 
     public function addDeveloper(Player $player, int $level)
     {
-        $sql = "INSERT INTO tblDeveloper (level, dateJoined) VALUES (" . $level . ", " . $player->getId() . ")";
-
-        mysqli_query($this->conn, $sql);
+        $sql = "INSERT INTO tblDeveloper (id, level, dateJoined) VALUES (" . $player->getId() . ", " . $level . ", NOW())";
+        $this->conn->query($sql);
     }
 
     public function updateDeveloper(Developer $developer)
@@ -456,9 +484,17 @@ class DBHelper
 
     public function deleteDeveloper(Developer $developer)
     {
-        $sql = "DELETE FROM tblDeveloper WHERE id=?" . $developer->getId();
+        $sql = "UPDATE tblPerk SET devId=null WHERE devId=" . $developer->getId();
+        $this->conn->query($sql);
 
-        mysqli_query($this->conn, $sql);
+        $sql = "SET FOREIGN_KEY_CHECKS=0";
+        $this->conn->query($sql);
+
+        $sql = "DELETE FROM tblDeveloper WHERE id=" . $developer->getId();
+        $this->conn->query($sql);
+
+        $sql = "SET FOREIGN_KEY_CHECKS=1";
+        $this->conn->query($sql);
     }
 
     public function getAllModerators()
@@ -499,8 +535,7 @@ class DBHelper
 
     public function addModerator(Player $player, int $level)
     {
-        $sql = "INSERT INTO tblModerator (level, dateJoined) VALUES (" . $level . ", " . $player->getId() . ")";
-
+        $sql = "INSERT INTO tblModerator (id, level, dateJoined) VALUES (" . $player->getId() . ", " . $level . ", NOW())";
         mysqli_query($this->conn, $sql);
     }
 
@@ -513,7 +548,7 @@ class DBHelper
 
     public function deleteModerator(Moderator $moderator)
     {
-        $sql = "DELETE FROM tblModerator WHERE id=?" . $moderator->getId();
+        $sql = "DELETE FROM tblModerator WHERE id=" . $moderator->getId();
 
         mysqli_query($this->conn, $sql);
     }
@@ -582,24 +617,21 @@ class DBHelper
         );
     }
 
-    public function addPerk(string $name, string $description, float $expMultiplier, float $cashMultiplier, int $devId, string $dateCreated)
+    public function addPerk(string $name, string $description, float $expMultiplier, float $cashMultiplier, int $devId)
     {
-        $sql = "INSERT INTO tblPerk (name, description, expMultiplier, cashMultiplier, devId, dateCreated) VALUES (" . $name . ", " . $description . ", " . $expMultiplier . ", " . $cashMultiplier . ", " . $devId . ", " . $dateCreated . ")";
-
+        $sql = "INSERT INTO tblPerk (name, description, expMultiplier, cashMultiplier, devId, dateCreated) VALUES ('" . $name . "', '" . $description . "', " . $expMultiplier . ", " . $cashMultiplier . ", " . $devId . ", NOW())";
         mysqli_query($this->conn, $sql);
     }
 
     public function updatePerk(Perk $perk)
     {
         $sql = "UPDATE tblPerk SET name=" . $perk->getName() . ", description=" . $perk->getDescription() . ", expMultiplier=" . $perk->getExpMultiplier() . ", cashMultiplier=" . $perk->getCashMultiplier() . ", devId=" . $perk->getDevId() . "WHERE id=" . $perk->getId();
-
         mysqli_query($this->conn, $sql);
     }
 
     public function deletePerk(Perk $perk)
     {
         $sql = "DELETE FROM tblPerk WHERE id=" . $perk->getId();
-
         mysqli_query($this->conn, $sql);
     }
 
@@ -637,19 +669,12 @@ class DBHelper
         );
     }
 
-    public function addBank()
+    public function addBank(): Bank
     {
-        $sql = "SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA=dbMonaHeist AND TABLE_NAME=tblPlayer";
-        $resultset = mysqli_query($this->conn, $sql);
+        $sql = "INSERT INTO tblBank (balance) VALUES (0)";
+        $this->conn->query($sql);
 
-        $row = $resultset->fetch_assoc();
-
-        $bankId = $row['AUTO_INCREMENT'];
-
-        $sql = "INSERT INTO tblBank VALUES (" . $bankId . ", 0)";
-        mysqli_query($this->conn, $sql);
-
-        return $bankId;
+        return $this->getBankById($this->conn->insert_id);
     }
 
     public function updateBank(Bank $bank)
@@ -661,9 +686,8 @@ class DBHelper
 
     public function deleteBank(Bank $bank)
     {
-        $sql = "DELETE FROM tblBank WHERE id=?" . $bank->getId();
-
-        mysqli_query($this->conn, $sql);
+        $sql = "DELETE FROM tblBank WHERE id=" . $bank->getId();
+        $this->conn->query($sql);
     }
 
     public function getAllPlayerPerks()

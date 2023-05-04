@@ -2,7 +2,8 @@
 require_once("classes/dbhelper.php");
 $dbh = new DBHelper();
 
-$dbh->addPlayer();
+$player = $dbh->getPlayerById($_POST['id']);
+$dbh->deletePlayer($player);
 
 header("Location: player.php");
 exit();

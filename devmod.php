@@ -16,7 +16,7 @@ $dbh = new DBHelper();
         <div style='background-color:#ffff00'>
             <center>
                 <p style="color:white">
-                <h2>Mona Heist</h2>
+                <h2>MonaHeist</h2>
                 </p>
             </center>
         </div>
@@ -34,7 +34,7 @@ $dbh = new DBHelper();
                 width="100%">
                 <thead>
                     <tr>
-                        <th>Developer ID</th>
+                        <th>ID</th>
                         <th>Level</th>
                         <th>Date Joined</th>
                     </tr>
@@ -53,10 +53,12 @@ $dbh = new DBHelper();
                                 <?php echo $developer->getDateJoined(); ?>
                             </td>
                             <td>
-                                <form method="get" action="">
+                                <form method="POST" action="editdeveloper.php">
+                                    <input type="hidden" name="id" value="<?php echo $developer->getId(); ?>">
                                     <button type="submit" class="btn btn-light">Edit</button>
                                 </form>
-                                <form method="get" action="">
+                                <form method="POST" action="deletedeveloper.php">
+                                    <input type="hidden" name="id" value="<?php echo $developer->getId(); ?>">
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
                             </td>
@@ -64,7 +66,7 @@ $dbh = new DBHelper();
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            <form method="post" action="adddev.php">
+            <form method="GET" action="adddev.php">
                 <button type="submit" class="btn btn-info">Add Developer</button>
             </form>
         </div>
@@ -82,7 +84,7 @@ $dbh = new DBHelper();
                 width="100%">
                 <thead>
                     <tr>
-                        <th>Moderator ID</th>
+                        <th>ID</th>
                         <th>Level</th>
                         <th>Date Joined</th>
                     </tr>
@@ -101,10 +103,12 @@ $dbh = new DBHelper();
                                 <?php echo $moderator->getDateJoined(); ?>
                             </td>
                             <td>
-                                <form method="get" action="">
+                                <form method="POST" action="editmoderator.php">
+                                    <input type="hidden" name="id" value="<?php echo $moderator->getId(); ?>">
                                     <button type="submit" class="btn btn-light">Edit</button>
                                 </form>
-                                <form method="get" action="">
+                                <form method="POST" action="deletemoderator.php">
+                                    <input type="hidden" name="id" value="<?php echo $moderator->getId(); ?>">
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
                             </td>
@@ -112,7 +116,7 @@ $dbh = new DBHelper();
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            <form method="post" action="addmod.php">
+            <form method="GET" action="addmod.php">
                 <button type="submit" class="btn btn-info">Add Moderator</button>
             </form>
         </div>
