@@ -7,6 +7,8 @@ include("purchase.php");
 include("developer.php");
 include("moderator.php");
 include("playerperk.php");
+include("bank.php");
+include("banktransaction.php");
 
 class DBHelper
 {
@@ -200,6 +202,8 @@ class DBHelper
                 $row['dateAdded']
             );
         }
+
+        return $shopListings;
     }
 
     public function addShopListing(Perk $perk, Shop $shop, int $stock, int $price)
@@ -717,6 +721,55 @@ class DBHelper
     public function deletePlayerPerk(PlayerPerk $playerPerk)
     {
         $sql = "DELETE FROM tblPlayerPerk WHERE id =" . $playerPerk->getId();
+
+        mysqli_query($this->conn, $sql);
+    }
+
+    public function getAllBankTransactions()
+    {
+        $sql = "SELECT * FROM tblBankTransaction";
+
+        $resultset = mysqli_query($this->conn, $sql);
+
+        $bankTransactions = array();
+        while ($row = $resultset->fetch_assoc()) {
+            $bankTransactions[] = new BankTransaction(
+                $row['id'],
+                $row['senderId'],
+                $row['receiverId'],
+                $row['bankId'],
+                $row['amount'],
+                $row['dateProcessed']
+            );
+        }
+
+        return $bankTransactions;
+    }
+
+    public function getBankTransactionById(int $id)
+    {
+        $sql = "SELECT * FROM tblBankTransaction WHERE id=" . $id;
+
+        $resultset = mysqli_query($this->conn, $sql);
+
+        $row = $resultset->fetch_assoc();
+
+        if (!$row)
+            return;
+
+        return new BankTransaction(
+            $row['id'],
+            $row['senderId'],
+            $row['receiverId'],
+            $row['bankId'],
+            $row['amount'],
+            $row['dateProcessed']
+        );
+    }
+
+    public function deleteBankTransaction(BankTransaction $bankTransaction)
+    {
+        $sql = "DELETE FROM tblBankTransaction WHERE id=" . $bankTransaction->getId();
 
         mysqli_query($this->conn, $sql);
     }

@@ -6,7 +6,7 @@ $dbh = new DBHelper();
 <html lang="en">
 
 <head>
-    <?php $title = "Shop | MonaHeist";
+    <?php $title = "Banks | MonaHeist";
     require_once 'includes/meta.php' ?>
 </head>
 
@@ -16,64 +16,47 @@ $dbh = new DBHelper();
         <div style='background-color:#ffff00'>
             <center>
                 <p style="color:white">
-                <h2>Mona Heist</h2>
+                <h2>MonaHeist</h2>
                 </p>
             </center>
         </div>
-
         <center>
             <p style="color:white">
-            <h5>List of Shops</h5>
+            <h5>List of Bank Accounts</h5>
             </p>
         </center>
 
         <div>
-            <?php $shops = $dbh->getAllShops(); ?>
+            <?php $banks = $dbh->getAllBanks(); ?>
 
             <table id="tblStudentRecords " class="table table-striped table-bordered table-sm" cellspacing="0"
                 width="100%">
                 <thead>
                     <tr>
-                        <th>Shop ID</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Date Created</th>
+                        <th>Owner/Account No.</th>
+                        <th>Balance</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <?php foreach ($shops as $shop): ?>
+                    <?php foreach ($banks as $bank): ?>
                         <tr>
                             <td>
-                                <?php echo $shop->getId(); ?>
+                                <?php echo $bank->getId(); ?>
                             </td>
                             <td>
-                                <?php echo $shop->getName(); ?>
-                            </td>
-                            <td>
-                                <?php echo $shop->getDescription(); ?>
-                            </td>
-                            <td>
-                                <?php echo $shop->getDateCreated(); ?>
+                                <?php echo "$" . $bank->getBalance(); ?>
                             </td>
                             <td>
                                 <form method="get" action="">
                                     <button type="submit" class="btn btn-light">Edit</button>
-                                </form>
-                                <form method="get" action="">
-                                    <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
                             </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            <form method="post" action="addshop.php">
-                <button type="submit" class="btn btn-info">Add Shop</button>
-            </form>
         </div>
     </div>
-    <?php require_once 'includes/footer.php' ?>
 </body>
-
-</html>
+<?php require_once 'includes/footer.php'; ?>
