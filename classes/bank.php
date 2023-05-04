@@ -1,25 +1,31 @@
 <?php
-class Bank {
-    private $id;
-    private $balance;
+class Bank
+{
+    private int $id;
+    private int $balance;
 
-    public function __construct($id, $balance) {
-        $this -> id = $id;
-        $this -> balance = balance;
+    public function __construct(int $id, int $balance)
+    {
+        $this->id = $id;
+        $this->balance = $balance;
     }
 
-    public function getId() {
-        return $id;
+    public function getId()
+    {
+        return $this->id;
     }
 
-    public function getBalance() {
-        return $balance;
+    public function getBalance()
+    {
+        return $this->balance;
     }
-    
-    public function setBalance($amount) {
-        if ($amount < 0) return;
 
-        $this -> balance = $amount;
+    public function setBalance(int $amount)
+    {
+        if ($amount < 0)
+            return;
+
+        $this->balance = $amount;
     }
 }
 ?>

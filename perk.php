@@ -6,7 +6,7 @@ $dbh = new DBHelper();
 <html lang="en">
 
 <head>
-    <?php $title = "Shop | MonaHeist";
+    <?php $title = "Home | MonaHeist";
     require_once 'includes/meta.php' ?>
 </head>
 
@@ -16,45 +16,56 @@ $dbh = new DBHelper();
         <div style='background-color:#ffff00'>
             <center>
                 <p style="color:white">
-                <h2>Mona Heist</h2>
+                <h2>MonaHeist</h2>
                 </p>
             </center>
         </div>
 
         <center>
             <p style="color:white">
-            <h5>List of Shops</h5>
+            <h5>List of Perks</h5>
             </p>
         </center>
 
         <div>
-            <?php $shops = $dbh->getAllShops(); ?>
+            <?php $perks = $dbh->getAllPerks(); ?>
 
-            <table id="tblStudentRecords " class="table table-striped table-bordered table-sm" cellspacing="0"
-                width="100%">
+            <table id="playerperk " class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th>Shop ID</th>
+                        <th>ID</th>
                         <th>Name</th>
                         <th>Description</th>
+                        <th>Exp Multiplier</th>
+                        <th>Cash Multiplier</th>
+                        <th>Developer</th>
                         <th>Date Created</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <?php foreach ($shops as $shop): ?>
+                    <?php foreach ($perks as $perk): ?>
                         <tr>
                             <td>
-                                <?php echo $shop->getId(); ?>
+                                <?php echo $perk->getId(); ?>
                             </td>
                             <td>
-                                <?php echo $shop->getName(); ?>
+                                <?php echo $perk->getName(); ?>
                             </td>
                             <td>
-                                <?php echo $shop->getDescription(); ?>
+                                <?php echo $perk->getDescription(); ?>
                             </td>
                             <td>
-                                <?php echo $shop->getDateCreated(); ?>
+                                <?php echo "x" . $perk->getExpMultiplier(); ?>
+                            </td>
+                            <td>
+                                <?php echo "x" . $perk->getCashMultiplier(); ?>
+                            </td>
+                            <td>
+                                <?php echo $perk->getDevId(); ?>
+                            </td>
+                            <td>
+                                <?php echo $perk->getDateCreated(); ?>
                             </td>
                             <td>
                                 <form method="get" action="">
@@ -68,9 +79,7 @@ $dbh = new DBHelper();
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            <form method="post" action="addshop.php">
-                <button type="submit" class="btn btn-info">Add Shop</button>
-            </form>
+            <a href="addperk.php"> <button type="button" class="btn btn-info">Add Perk</button> </a>
         </div>
     </div>
     <?php require_once 'includes/footer.php' ?>

@@ -9,8 +9,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $buyer = $_POST['buyer'];
 }
 
-$perk = $dbh -> getPerkByName($perk);
-$buyer = $dbh -> getPlayerByName($buyer);
+$perk = $dbh->getPerkByName($perk);
+$buyer = $dbh->getPlayerById($buyer);
 
-$dbh -> addPurchase($perk, $quantity, $buyer);
+$dbh->addPurchase($perk, $quantity, $buyer);
 ?>
