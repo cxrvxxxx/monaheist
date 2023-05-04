@@ -1,40 +1,45 @@
 <?php
-class Purchase
+class PlayerPerk
 {
     private int $id;
+    private int $playerId;
     private int $perkId;
     private int $quantity;
-    private int $buyerId;
-    private string $datePurchased;
 
-    public function __construct(int $id, int $perkId, int $quantity, int $buyerId, string $datePurchased)
+    public function __construct(int $id, int $playerId, int $perkId, int $quantity)
     {
         $this->id = $id;
+        $this->playerId = $playerId;
         $this->perkId = $perkId;
         $this->quantity = $quantity;
-        $this->buyerId = $buyerId;
-        $this->datePurchased = $datePurchased;
     }
 
     public function getId()
     {
         return $this->id;
     }
+
+    public function getPlayerId()
+    {
+        return $this->playerId;
+    }
+
     public function getPerkId()
     {
         return $this->perkId;
     }
+
     public function getQuantity()
     {
         return $this->quantity;
     }
-    public function getBuyerid()
+
+    public function setQuantity(int $quantity)
     {
-        return $this->buyerId;
-    }
-    public function getDatePurchased()
-    {
-        return $this->datePurchased;
+        if ($quantity < 0)
+            return;
+
+        $this->quantity = $quantity;
     }
 }
 ?>
