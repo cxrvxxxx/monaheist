@@ -25,15 +25,15 @@ $players = $dbh->getAllPlayers();
 
         <center>
             <p style="color:white">
-            <h5>Add new Moderator</h5>
+            <h5>Add Moderator</h5>
             </p>
         </center>
 
         <form method="POST" action="addmod_submit.php">
             <div class="form-group">
-                <label for="inputPlayerId">Player ID</label>
-                <select type="number" name="id" class="form-select" id="inputPlayerId">
-                    <option>Select player...</option>
+                <label for="inputPlayerId">Player</label>
+                <select type="number" name="id" class="form-select" id="inputPlayerId" required>
+                    <option disabled selected value="">Select player...</option>
                     <?php foreach ($players as $player): ?>
                         <option value="<?php echo $player->getId() ?>"><?php echo $player->getId() ?></option>
                     <?php endforeach; ?>
@@ -42,7 +42,7 @@ $players = $dbh->getAllPlayers();
             <br>
             <div class="form-group">
                 <label for="inputLevel">Level</label>
-                <input name="level" type="number" class="form-control" id="inputLevel" value="1">
+                <input name="level" type="number" class="form-control" id="inputLevel" value="1" required>
             </div>
             <br>
             <button type="submit" class="btn btn-success">Submit</button>

@@ -65,9 +65,9 @@ $dbh = new DBHelper();
                                 <?php echo $player->getDateJoined(); ?>
                             </td>
                             <td>
-                                <form method="POST" action="editplayer.php">
+                                <form method="GET" action="profile.php">
                                     <input type="hidden" name="id" value="<?php echo $player->getId(); ?>">
-                                    <button type="submit" class="btn btn-light">Edit</button>
+                                    <button type="submit" class="btn btn-warning">View</button>
                                 </form>
                                 <form method="POST" action="deleteplayer.php">
                                     <input type="hidden" name="id" value="<?php echo $player->getId(); ?>">

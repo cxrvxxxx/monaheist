@@ -55,7 +55,7 @@ class ShopListing
 
     public function setStock(int $stock)
     {
-        if ($stock > 0)
+        if ($stock < 0)
             return;
 
         $this->stock = $stock;

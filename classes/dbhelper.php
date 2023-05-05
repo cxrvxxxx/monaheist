@@ -43,6 +43,8 @@ class DBHelper
         mysqli_query($this->conn, "
         CREATE TABLE IF NOT EXISTS tblPlayer (
             id INT PRIMARY KEY AUTO_INCREMENT,
+            username VARCHAR(24),
+            password VARCHAR(255),
             level INT,
             experience INT,
             cash INT,
@@ -77,15 +79,13 @@ class DBHelper
             description VARCHAR(255),
             expMultiplier FLOAT,
             cashMultiplier FLOAT,
-            devId INT,
-            dateCreated DATETIME,
-            FOREIGN KEY (devId) REFERENCES tblDeveloper (id)
+            dateCreated DATETIME
         )
         ");
 
         mysqli_query($this->conn, "
         CREATE TABLE IF NOT EXISTS tblPlayerPerk (
-            id INT PRIMARY KEY,
+            id INT PRIMARY KEY AUTO_INCREMENT,
             perkId INT,
             quantity INT,
             FOREIGN KEY (id) REFERENCES tblPlayer (id),
@@ -120,11 +120,13 @@ class DBHelper
         CREATE TABLE IF NOT EXISTS tblPurchase (
             id INT PRIMARY KEY AUTO_INCREMENT,
             perkId INT,
+            shopId INT,
             quantity INT,
             buyerId INT,
             datePurchased DATETIME,
             FOREIGN KEY (perkId) REFERENCES tblPerk (id),
-            FOREIGN KEY (buyerId) REFERENCES tblPlayer (id)
+            FOREIGN KEY (buyerId) REFERENCES tblPlayer (id),
+            FOREIGN KEY (shopId) REFERENCES tblShop (id)
         )
         ");
 
@@ -140,6 +142,30 @@ class DBHelper
             FOREIGN KEY (shopId) REFERENCES tblShop (id)
         )
         ");
+    }
+
+    public function register(string $username, string $password): bool
+    {
+        if ($this->login($username, $password))
+            return false;
+
+        $this->addPlayer();
+        $player = $this->getPlayerById($this->conn->insert_id);
+
+        $sql = "UPDATE tblPlayer SET username='" . $username . "', password='" . $password . "' WHERE id=" . $player->getId();
+        $this->conn->query($sql);
+        return true;
+    }
+
+    public function login(string $username, string $password): bool
+    {
+        $sql = "SELECT * FROM tblPlayer WHERE username='" . $username . "' AND password='" . $password . "'";
+        $resultset = $this->conn->query($sql);
+        $row = $resultset->fetch_assoc();
+        if (!$row)
+            return false;
+        else
+            return true;
     }
 
     public function getAllShopListings()
@@ -215,7 +241,7 @@ class DBHelper
 
     public function updateShopListing(ShopListing $shopListing)
     {
-        $sql = "UPDATE tblShopListing SET stock=" . $shopListing->getStock() . ", price=" . $shopListing->getPrice() . " WHERE id=" . $shopListing->getId();
+        $sql = "UPDATE tblShopListing SET perkId=" . $shopListing->getPerkId() . ", shopId=" . $shopListing->getShopId() . ", stock=" . $shopListing->getStock() . ", price=" . $shopListing->getPrice() . " WHERE id=" . $shopListing->getId();
 
         mysqli_query($this->conn, $sql);
     }
@@ -229,7 +255,7 @@ class DBHelper
 
     public function getAllPlayers()
     {
-        $sql = "SELECT * FROM tblPlayer";
+        $sql = "SELECT id, level, experience, cash, bankId, dateJoined FROM tblPlayer";
 
         $resultset = mysqli_query($this->conn, $sql);
 
@@ -250,7 +276,7 @@ class DBHelper
 
     public function getPlayerById(int $id)
     {
-        $sql = "SELECT * FROM tblPlayer WHERE id=" . $id;
+        $sql = "SELECT id, level, experience, cash, bankId, dateJoined FROM tblPlayer WHERE id=" . $id;
 
         $resultset = mysqli_query($this->conn, $sql);
 
@@ -305,9 +331,8 @@ class DBHelper
 
     public function updatePlayer(Player $player)
     {
-        $sql = "UPDATE tblPlayer SET level=" . $player->getLevel() . ", experience=" . $player->getExperience() . ", cash=" . $player->getCash();
-
-        mysqli_query($this->conn, $sql);
+        $sql = "UPDATE tblPlayer SET level=" . $player->getLevel() . ", experience=" . $player->getExperience() . ", cash=" . $player->getCash() . " WHERE id=" . $player->getId();
+        $this->conn->query($sql);
     }
 
     public function deletePlayer(Player $player)
@@ -338,6 +363,7 @@ class DBHelper
             $purchases[] = new Purchase(
                 $row['id'],
                 $row['perkId'],
+                $row['shopId'],
                 $row['quantity'],
                 $row['buyerId'],
                 $row['datePurchased']
@@ -361,19 +387,21 @@ class DBHelper
         return new Purchase(
             $row['id'],
             $row['perkId'],
+            $row['shopId'],
             $row['quantity'],
             $row['buyerId'],
             $row['datePurchased']
         );
     }
 
-    public function addPurchase(Perk $perk, int $quantity, Player $buyer)
+    public function addPurchase(Perk $perk, Shop $shop, int $quantity, Player $buyer)
     {
-        $sql = "INSERT INTO tblPurchase (perkId, quantity, buyerId, datePurchased) VALUES (" . $perk->getId() . ", " . $quantity . ", " . $buyer->getId() . ", NOW())";
+        $sql = "INSERT INTO tblPurchase (perkId, shopId, quantity, buyerId, datePurchased) VALUES (" . $perk->getId() . ", " . $shop->getId() . ", " . $quantity . ", " . $buyer->getId() . ", NOW())";
         $this->conn->query($sql);
     }
 
-    public function deletePurchase(Purchase $purchase) {
+    public function deletePurchase(Purchase $purchase)
+    {
         $sql = "DELETE FROM tblPurchase WHERE id=" . $purchase->getId();
 
         $this->conn->query($sql);
@@ -791,6 +819,12 @@ class DBHelper
             $row['amount'],
             $row['dateProcessed']
         );
+    }
+
+    public function addBankTransaction(Player $sender, Player $receiver, int $amount)
+    {
+        $sql = "INSERT INTO tblBankTransaction (senderId, receiverId, bankId, amount, dateProcessed) VALUES (" . $sender->getId() . ", " . $receiver->getId() . ", " . $this->getBankById($receiver->getBankId())->getId() . ", " . $amount . ", NOW())";
+        $this->conn->query($sql);
     }
 
     public function deleteBankTransaction(BankTransaction $bankTransaction)

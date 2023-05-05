@@ -10,4 +10,10 @@
     <a href="banktransaction.php" class="navbar-text navbar-nav mx-2">Transactions</a>
     <a href="perk.php" class="navbar-text navbar-nav mx-2">Perks</a>
   </div>
+  <div class="ms-auto">
+    <div class="d-flex px-2 mx-2">
+      <a href="login.php" class="navbar-text navbar-nav mx-2">Login</a>
+      <a href="register.php" class="navbar-text navbar-nav mx-2">Register</a>
+    </div>
+  </div>
 </nav>

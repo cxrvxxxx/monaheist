@@ -1,3 +1,9 @@
+<?php
+require_once 'classes/dbhelper.php';
+$dbh = new DBHelper();
+
+$players = $dbh->getAllPlayers();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,38 +18,38 @@
     <div style='background-color:#ffff00'>
       <center>
         <p style="color:white">
-        <h2>Student Information System</h2>
+        <h2>Add Transaction</h2>
         </p>
       </center>
     </div>
 
-    <form>
+    <form method="POST" action="addtransaction_submit.php">
       <div class="form-group">
-        <label for="exampleFormControlInput1">Transaction ID</label>
-        <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="123456789">
+        <label for="inputAmount">Amount</label>
+        <input name="amount" type="number" class="form-control" id="inputAmount" required>
       </div>
       </br>
       <div class="form-group">
-        <label for="exampleFormControlInput1">Amount</label>
-        <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="In Game Currency">
+        <label for="inputSenderId">Sender</label>
+        <select name="senderId" class="form-select" id="inputSenderId" required>
+          <option disabled selected>Choose sender...</option>
+          <?php foreach ($players as $player): ?>
+            <option value="<?php echo $player->getId() ?>"><?php echo $player->getId() ?></option>
+          <?php endforeach; ?>
+        </select>
       </div>
-      </br>
+      <br>
       <div class="form-group">
-        <label for="exampleFormControlInput1">Process Date</label>
-        <input type="date" class="form-control" id="exampleFormControlInput1">
+        <label for="inputReceiverId">Receiver</label>
+        <select name="receiverId" class="form-select" id="inputReceiverId" required>
+          <option disabled selected>Choose receiver...</option>
+          <?php foreach ($players as $player): ?>
+            <option value="<?php echo $player->getId() ?>"><?php echo $player->getId() ?></option>
+          <?php endforeach; ?>
+        </select>
       </div>
-      </br>
-      <div class="form-group">
-        <label for="exampleFormControlInput1">Sender ID</label>
-        <input type="number" class="form-control" id="exampleFormControlInput1">
-      </div>
-      </br>
-      <div class="form-group">
-        <label for="exampleFormControlInput1">Receiver ID</label>
-        <input type="number" class="form-control" id="exampleFormControlInput1">
-      </div>
-      </br>
-      <a href="add_bank.php"><button type="button" class="btn btn-success">Add Record</button>
+      <br>
+      <button type="submit" class="btn btn-success">Submit</button>
     </form>
   </div>
   <?php require_once 'includes/footer.php' ?>

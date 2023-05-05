@@ -31,6 +31,7 @@ $dbh = new DBHelper();
                 <tr>
                     <th class="col-md-1">ID</th>
                     <th class="col-md-3">Perk</th>
+                    <th class="col-md-3">Shop</th>
                     <th class="col-md-1">Quantity</th>
                     <th class="col-md-3">Buyer</th>
                     <th class="col-md-2">Date Purchased</th>
@@ -44,6 +45,9 @@ $dbh = new DBHelper();
                         </td>
                         <td>
                             <?php echo $dbh->getPerkById($purchase->getPerkId())->getName(); ?>
+                        </td>
+                        <td>
+                            <?php echo $dbh->getShopById($purchase->getShopId())->getName(); ?>
                         </td>
                         <td>
                             <?php echo $purchase->getQuantity(); ?>

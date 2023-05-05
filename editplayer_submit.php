@@ -10,6 +10,6 @@ $player->setCash($_POST['cash']);
 
 $dbh->updatePlayer($player);
 
-header("Location: player.php");
+header("Location: profile.php?id=" . $player->getId());
 exit();
 ?>

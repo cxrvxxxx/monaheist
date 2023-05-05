@@ -48,7 +48,8 @@ $dbh = new DBHelper();
                                 <?php echo "$" . $bank->getBalance(); ?>
                             </td>
                             <td>
-                                <form method="get" action="">
+                                <form method="GET" action="editbank.php">
+                                    <input type="hidden" name="id" value="<?php echo $bank->getId(); ?>">
                                     <button type="submit" class="btn btn-light">Edit</button>
                                 </form>
                             </td>

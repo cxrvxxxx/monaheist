@@ -3,8 +3,8 @@ require_once 'classes/dbhelper.php';
 $dbh = new DBHelper();
 
 $shopListing = $dbh->getShopListingById($_POST['id']);
-$perks = $dbh->getAllPerks();
-$shops = $dbh->getAllShops();
+$perk = $dbh->getPerkById($shopListing->getPerkId());
+$shop = $dbh->getShopById($shopListing->getShopId());
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,35 +33,29 @@ $shops = $dbh->getAllShops();
             </div>
             </br>
             <div class="form-group">
-                <label for="inputPerkId">Perk</label>
-                <select name="perkId" class="form-select" id="inputPerkId">
-                    <option>Choose perk...</option>
-                    <?php foreach ($perks as $perk): ?>
-                        <option value="<?php echo $perk->getId() ?>"><?php echo $perk->getName() ?></option>
-                    <?php endforeach; ?>
-                </select>
+                <input name="perkId" type="hidden" class="form-control" id="inputPerkId"
+                    value="<?php echo $perk->getId(); ?>">
+                <label for="inputPerk">Shop</label>
+                <input type="text" class="form-control" id="inputPerk" value="<?php echo $perk->getName(); ?>" readonly>
             </div>
-            <br>
+            </br>
             <div class="form-group">
-                <label for="inputPerkId">Shop</label>
-                <select name="shopId" class="form-select" id="inputPerkId">
-                    <option>Choose shop...</option>
-                    <?php foreach ($shops as $shop): ?>
-                        <option value="<?php echo $shop->getId() ?>"><?php echo $shop->getName() ?></option>
-                    <?php endforeach; ?>
-                </select>
+                <input name="shopId" type="hidden" class="form-control" id="inputShopId"
+                    value="<?php echo $shop->getId(); ?>">
+                <label for="inputShop">Shop</label>
+                <input type="text" class="form-control" id="inputShop" value="<?php echo $shop->getName(); ?>" readonly>
             </div>
-            <br>
+            </br>
             <div class="form-group">
                 <label for="inputStock">Stock</label>
                 <input name="stock" type="number" class="form-control" id="inputStock"
-                    value="<?php echo $shopListing->getStock(); ?>">
+                    value="<?php echo $shopListing->getStock(); ?>" required>
             </div>
             </br>
             <div class="form-group">
                 <label for="inputPrice">price</label>
                 <input name="price" type="number" class="form-control" id="inputPrice"
-                    value="<?php echo $shopListing->getPrice(); ?>">
+                    value="<?php echo $shopListing->getPrice(); ?>" required>
             </div>
             </br>
             <div class="form-group">
