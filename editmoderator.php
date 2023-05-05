@@ -33,7 +33,7 @@ $moderator = $dbh->getModeratorById($_POST['id']);
             <div class="form-group">
                 <label for="inputLevel">Level</label>
                 <input name="level" type="number" class="form-control" id="inputLevel"
-                    value="<?php echo $moderator->getLevel(); ?>">
+                    value="<?php echo $moderator->getLevel(); ?>" required>
             </div>
             </br>
             <div class="form-group">

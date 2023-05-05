@@ -6,8 +6,8 @@ $dbh = new DBHelper();
 <html lang="en">
 
 <head>
-    <?php require_once 'includes/meta.php' ?>
-    <title>Bank Transactions | MonaHeist</title>
+    <?php $title = "Bank Transactions | MonaHeist";
+    require_once 'includes/meta.php' ?>
 </head>
 
 <body>
@@ -55,13 +55,19 @@ $dbh = new DBHelper();
                                 <?php echo $transaction->getSenderId(); ?>
                             </td>
                             <td>
-                                <?php echo $transaction->getAmount(); ?>
+                                <?php echo "$" . $transaction->getAmount(); ?>
                             </td>
                             <td>
                                 <?php echo $transaction->getReceiverId(); ?>
                             </td>
                             <td>
                                 <?php echo $transaction->getDateProcessed(); ?>
+                            </td>
+                            <td>
+                                <form method="POST" action="deletebanktransaction.php">
+                                    <input type="hidden" name="id" value="<?php echo $transaction->getId(); ?>">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
                             </td>
                         </tr>
                     <?php endforeach; ?>

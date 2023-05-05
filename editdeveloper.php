@@ -33,7 +33,7 @@ $developer = $dbh->getDeveloperById($_POST['id']);
             <div class="form-group">
                 <label for="inputLevel">Level</label>
                 <input name="level" type="number" class="form-control" id="inputLevel"
-                    value="<?php echo $developer->getLevel(); ?>">
+                    value="<?php echo $developer->getLevel(); ?>" required>
             </div>
             </br>
             <div class="form-group">

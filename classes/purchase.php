@@ -3,14 +3,16 @@ class Purchase
 {
     private int $id;
     private int $perkId;
+    private int $shopId;
     private int $quantity;
     private int $buyerId;
     private string $datePurchased;
 
-    public function __construct(int $id, int $perkId, int $quantity, int $buyerId, string $datePurchased)
+    public function __construct(int $id, int $perkId, int $shopId, int $quantity, int $buyerId, string $datePurchased)
     {
         $this->id = $id;
         $this->perkId = $perkId;
+        $this->shopId = $shopId;
         $this->quantity = $quantity;
         $this->buyerId = $buyerId;
         $this->datePurchased = $datePurchased;
@@ -23,6 +25,10 @@ class Purchase
     public function getPerkId()
     {
         return $this->perkId;
+    }
+    public function getShopId()
+    {
+        return $this->shopId;
     }
     public function getQuantity()
     {
