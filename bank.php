@@ -22,7 +22,7 @@ $dbh = new DBHelper();
         </div>
         <center>
             <p style="color:white">
-            <h5>List of Bank Accounts</h5>
+            <h4 class="title">List of Bank Accounts</h4>
             </p>
         </center>
 

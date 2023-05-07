@@ -23,7 +23,7 @@ $dbh = new DBHelper();
 
         <center>
             <p style="color:white">
-            <h5>List of Shops</h5>
+            <h4 class="title">List of Shops</h4>
             </p>
         </center>
 
