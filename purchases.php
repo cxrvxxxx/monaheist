@@ -22,7 +22,7 @@ $dbh = new DBHelper();
         </div>
         <center>
             <p style="color:white">
-            <h5>List of Purchases</h5>
+            <h4 class="title">List of Purchases</h4>
             </p>
         </center>
         <?php $purchases = $dbh->getAllPurchases(); ?>
