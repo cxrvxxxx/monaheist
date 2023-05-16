@@ -4,6 +4,7 @@ $dbh = new DBHelper();
 
 $player = $dbh->getPlayerById($_GET['id']);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
