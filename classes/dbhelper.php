@@ -142,24 +142,45 @@ class DBHelper
             FOREIGN KEY (shopId) REFERENCES tblShop (id)
         )
         ");
+
+        mysqli_query($this->conn, "
+        CREATE TABLE IF NOT EXISTS tblWebUser (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            username VARCHAR(24),
+            password VARCHAR(255),
+            firstname VARCHAR(255),
+            lastname VARCHAR(255),
+            birthdate DATE,
+            gender CHAR(1),
+            playerId INT,
+            dateCreated DATETIME DEFAULT NOW(),
+            FOREIGN KEY (playerId) REFERENCES tblPlayer (id)
+        )
+        ");
     }
 
-    public function register(string $username, string $password): bool
+    public function register(string $username, string $firstname, string $lastname, int $month, int $day, int $year, string $gender, string $password): bool
     {
         if ($this->login($username, $password))
             return false;
 
-        $this->addPlayer();
-        $player = $this->getPlayerById($this->conn->insert_id);
+        $birthdate = $year . "-" . $month . "-" . $day;
 
-        $sql = "UPDATE tblPlayer SET username='" . $username . "', password='" . $password . "' WHERE id=" . $player->getId();
+        $sql = "INSERT INTO tblWebUser (username, password, firstname, lastname, birthdate, gender) VALUES ('"
+                . $username . "', '"
+                . md5($password) . "', '"
+                . $firstname . "', '"
+                . $lastname . "', '"
+                . $birthdate . "', '"
+                . $gender . "')";
+
         $this->conn->query($sql);
         return true;
     }
 
     public function login(string $username, string $password): bool
     {
-        $sql = "SELECT * FROM tblPlayer WHERE username='" . $username . "' AND password='" . $password . "'";
+        $sql = "SELECT * FROM tblWebUser WHERE username='" . $username . "' AND password='" . md5($password) . "'";
         $resultset = $this->conn->query($sql);
         $row = $resultset->fetch_assoc();
         if (!$row)
