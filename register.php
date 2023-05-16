@@ -26,10 +26,38 @@
                 <!-- Registration Form -->
                 <div class="card mt-3">
                     <div class="card-body">
-                        <form action="register.php" method="POST">
+                        <form action="register_submit.php" method="POST">
                             <div class="form-group">
                                 <label for="username">Username:</label>
                                 <input type="text" class="form-control" id="username" name="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="firstname">Firstname:</label>
+                                <input type="text" class="form-control" id="firstname" name="firstname" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastname">Lastname:</label>
+                                <input type="text" class="form-control" id="lastname" name="lastname" required>
+                            </div>
+                            <div class="form-group row d-flex justify-content-center">
+                                <label for="birthdate">Birthdate:</label>
+                                <select type="number" name="month" class="form-select col-md-3 mx-1" id="birthdate" required>
+                                    <option disabled selected value="">Month</option>
+                                    <?php for($i = 1 ; $i <= 12; $i++): ?>
+                                        <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                                    <?php endfor; ?>
+                                </select>
+                                <select type="number" name="day" class="form-select col-md-3 mx-1" id="birthdate" required>
+                                    <option disabled selected value="">Day</option>
+                                    <?php for($i = 1 ; $i <= 31; $i++): ?>
+                                        <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                                    <?php endfor; ?>
+                                </select>
+                                <input type="number" class="form-control col-md-4 mx-1" id="birthdate" name="year" placeholder="Year" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="gender">Gender:</label>
+                                <input type="text" class="form-control" id="gender" name="gender" required>
                             </div>
                             <div class="form-group mt-3">
                                 <label for="password">Password:</label>
