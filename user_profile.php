@@ -16,7 +16,7 @@
                     <div class="photo-container">
                         <img src="images/monaners.jpg" class="rounded-circle img-fluid img-raised" alt="">
                     </div>
-                    <h3 class="title">Welcome, <?php echo $_SESSION['activeUser'].getUsername(); ?></h3>
+                    <h3 class="title">Welcome, <?php echo $_SESSION['username']; ?></h3>
                 </div>
             </div>
         </div>
