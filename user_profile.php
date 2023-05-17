@@ -12,21 +12,26 @@
             <div class="page-header page-header-small">
                 <div class="page-header-image" data-parallax="true" style="background-image:url('images/homephoto.jpg');"></div>
                 <div class="container">
-                    <div class="photo-container">
-                        <img src="images/monaners.jpg" class="rounded-circle img-fluid img-raised" alt="">
+                    <div class="row d-flex justify-content-center">
+                        <div class="photo-container col-md-3">
+                            <img src="images/monaners.jpg" class="rounded-circle img-fluid img-raised" alt="">
+                        </div>
+                        <div class="col-md-auto d-inline-block">
+                            <h3 class="title">Name <?php //Remove "Name" <- and do some echo stuff i dunno lol ?></h3>
+                            <div class="button-container">
+                                <center>
+                                <a href="update_profile.php" class="btn btn-info btn-round btn-lg">Edit Profile</a>
+                                <a href="login.php" class="btn btn-danger btn-round btn-lg" >Log Out</a>
+                                </center>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="title">Name <?php //Remove "Name" <- and do some echo stuff i dunno lol ?></h3>
                 </div>
             </div>
         </div>
         <div class="section">
             <div class="container">
-                <div class="button-container">
-                    <center>
-                    <a href="update_profile.php" class="btn btn-info btn-round btn-lg">Edit Profile</a>
-                    <a href="login.php" class="btn btn-danger btn-round btn-lg" >Log Out</a>
-                    </center>
-                </div>
+
             </div>
         </div>
     <?php require_once 'includes/footer.php' ?>
