@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -27,7 +26,7 @@
                     <!-- Login Form -->
                     <div class="card">
                         <div class="card-body">
-                            <form action="user_profile.php" method="POST">
+                            <form action="login_submit.php" method="POST">
                                 <div class="form-group">
                                     <label for="username">Username:</label>
                                     <input type="text" class="form-control" id="username" name="username" required>

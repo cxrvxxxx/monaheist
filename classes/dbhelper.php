@@ -9,6 +9,7 @@ include("moderator.php");
 include("playerperk.php");
 include("bank.php");
 include("banktransaction.php");
+include("webuser.php");
 
 class DBHelper
 {
@@ -159,6 +160,27 @@ class DBHelper
         ");
     }
 
+	public function getUser(string $username, string $password)
+	{
+		$sql = "SELECT * FROM tblWebUser WHERE username='" . $username . "' AND password='" . $password . "'";
+
+		$rs = $this->conn->query($sql);
+		
+		if ($rs->fetch_assoc()) {
+			return new WebUser(
+				$rs['id'],
+				$rs['username'],
+				$rs['username'],
+				$rs['firstname'],
+				$rs['lastname'],
+				$rs['birthdate'],
+				$rs['gender'],
+				$rs['playerId'],
+				$rs['dateCreated']
+			);
+		}
+	}
+
     public function register(string $username, string $firstname, string $lastname, int $month, int $day, int $year, string $gender, string $password): bool
     {
         if ($this->login($username, $password))
@@ -182,11 +204,9 @@ class DBHelper
     {
         $sql = "SELECT * FROM tblWebUser WHERE username='" . $username . "' AND password='" . md5($password) . "'";
         $resultset = $this->conn->query($sql);
-        $row = $resultset->fetch_assoc();
-        if (!$row)
-            return false;
-        else
-            return true;
+        
+		if ($resultset->fetch_assoc())
+			return true;
     }
 
     public function getAllShopListings()
