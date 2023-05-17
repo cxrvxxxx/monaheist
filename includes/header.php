@@ -63,6 +63,11 @@
               <p>Banks</p>
             </a>
           </li>
+		  <li class="nav-item">
+            <a class="nav-link" href="banktransaction.php">
+              <p>Transactions</p>
+            </a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" href="perk.php">
               <p>Perks</p>
