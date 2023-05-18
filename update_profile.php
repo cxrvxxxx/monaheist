@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,22 +16,43 @@
                     <div class="photo-container">
                         <img src="images/monaners.jpg" class="rounded-circle img-fluid img-raised" alt="">
                     </div>
-                    <h3 class="title">Name <?php //Remove "Name" <- and do some echo stuff i dunno lol ?></h3>
+                    <h3 class="title">Welcome, <?php echo $_SESSION['username']; ?></h3>
                 </div>
             </div>
         </div>
         <div class="section">
-            <div class="container">
-                <div class="button-container">
-                    <center>
-                    <a href="update_profile.php" class="btn btn-info btn-round btn-lg">Edit Profile</a>
-                    <a href="login.php" class="btn btn-danger btn-round btn-lg" >Log Out</a>
-                    </center>
+		<div class="row justify-content-center">
+                <div class="col-md-6">
+                    <!-- Update Profile -->
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="register_submit.php" method="POST">
+								<!-- UPDATE PASSWORD -->
+								<div class="form-group">
+									<label for="password">Input password: </label>
+									<input type="text" class="form-control" id="password" name="password" required>
+								</div>
+
+								<!-- FIRST NAME -->
+								<div class="form-group">
+									<label for="firstname">Input firstname:</label>
+									<input type="text" class="form-control" id="firstname" name="firstname" required>
+								</div>
+
+								<!-- LAST NAME -->
+								<div class="form-group">
+									<label for="lastname">Input lastname: </label>
+									<input type="text" class="form-control" id="lastname" name="lastname" required>
+								</div>
+								<center>
+									<a href="#" class="btn btn-success btn-round btn-lg">Save</a>
+									<a href="#" class="btn btn-danger btn-round btn-lg">Cancel</a>
+								</center>
+							</form>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <form method="POST">
-                <!-- Code for changing password and everything -->
-            </form>
         </div>
     <?php require_once 'includes/footer.php' ?>
 </body>

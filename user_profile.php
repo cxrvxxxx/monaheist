@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +24,7 @@
                     <div class="photo-container">
                         <img src="images/monaners.jpg" class="rounded-circle img-fluid img-raised" alt="">
                     </div>
-                    <h3 class="title">Name <?php //Remove "Name" <- and do some echo stuff i dunno lol ?></h3>
+                    <h3 class="title">Welcome, <?php echo $_SESSION['username']; ?></h3>
                 </div>
             </div>
         </div>
@@ -24,7 +33,7 @@
                 <div class="button-container">
                     <center>
                     <a href="update_profile.php" class="btn btn-info btn-round btn-lg">Edit Profile</a>
-                    <a href="login.php" class="btn btn-danger btn-round btn-lg" >Log Out</a>
+                    <a href="logout.php" class="btn btn-danger btn-round btn-lg" >Log Out</a>
                     </center>
                 </div>
             </div>
