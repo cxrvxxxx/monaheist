@@ -160,39 +160,69 @@ class DBHelper
         ");
     }
 
-	public function getUser(string $username, string $password)
-	{
-		$sql = "SELECT * FROM tblWebUser WHERE username='" . $username . "' AND password='" . md5($password) . "'";
+    public function getUser(string $username, string $password)
+    {
+        $sql = "SELECT * FROM tblWebUser WHERE username='" . $username . "' AND password='" . md5($password) . "'";
 
-		$rs = $this->conn->query($sql);
-		$row = $rs->fetch_assoc();
-				
-		if ($row) {
-			return new WebUser(
-				$row['id'],
-				$row['username'],
-				$row['username'],
-				$row['firstname'],
-				$row['lastname'],
-				$row['birthdate'],
-				$row['gender'],
-				($row['playerId'] == null) ? 0 : $row['playerId'],
-				$row['dateCreated']
-			);
-		}
-		
-		return new WebUser(
-			0,
-			"Guest",
-			"",
-			"",
-			"",
-			"",
-			"",
-			0,
-			"",
-		);
-	}
+        $rs = $this->conn->query($sql);
+        $row = $rs->fetch_assoc();
+
+        if ($row) {
+            return new WebUser(
+                $row['id'],
+                $row['username'],
+                $row['password'],
+                $row['firstname'],
+                $row['lastname'],
+                $row['birthdate'],
+                $row['gender'],
+                ($row['playerId'] == null) ? 0 : $row['playerId'],
+                $row['dateCreated']
+            );
+        }
+
+        return new WebUser(
+            0,
+            "Guest",
+            "",
+            "",
+            "",
+            "",
+            "",
+            0,
+            "",
+        );
+    }
+
+    public function getWebUserById(int $id)
+    {
+        $sql = "SELECT * FROM tblWebUser WHERE id=" . $id;
+
+        $rs = $this->conn->query($sql);
+
+        $row = $rs->fetch_assoc();
+
+        if ($row) {
+            return new WebUser(
+                $row['id'],
+                $row['username'],
+                $row['password'],
+                $row['firstname'],
+                $row['lastname'],
+                $row['birthdate'],
+                $row['gender'],
+                $row['playerId'] == null ? 0 : $row['playerId'],
+                $row['dateCreated']
+            );
+        }
+    }
+
+    public function updateuser(WebUser $u)
+    {
+        $sql = "UPDATE tblWebUser SET password='" . $u->getPassword() . "', firstname='" . $u->getFirstname() . "', lastname='" . $u->getLastname() . "', birthdate='" . $u->getBirthdate() . "', gender='" . $u->getGender() . "' WHERE id=" . $u->getId();
+
+        $this->conn->query($sql);
+    }
 
     public function register(string $username, string $firstname, string $lastname, int $month, int $day, int $year, string $gender, string $password): bool
     {
@@ -202,12 +232,12 @@ class DBHelper
         $birthdate = $year . "-" . $month . "-" . $day;
 
         $sql = "INSERT INTO tblWebUser (username, password, firstname, lastname, birthdate, gender) VALUES ('"
-                . $username . "', '"
-                . md5($password) . "', '"
-                . $firstname . "', '"
-                . $lastname . "', '"
-                . $birthdate . "', '"
-                . $gender . "')";
+            . $username . "', '"
+            . md5($password) . "', '"
+            . $firstname . "', '"
+            . $lastname . "', '"
+            . $birthdate . "', '"
+            . $gender . "')";
 
         $this->conn->query($sql);
         return true;
@@ -217,11 +247,11 @@ class DBHelper
     {
         $sql = "SELECT * FROM tblWebUser WHERE username='" . $username . "' AND password='" . md5($password) . "'";
         $resultset = $this->conn->query($sql);
-        
-		if ($resultset->fetch_assoc())
-			return true;
-		
-		return false;
+
+        if ($resultset->fetch_assoc())
+            return true;
+
+        return false;
     }
 
     public function getAllShopListings()
