@@ -1,4 +1,12 @@
-<?php session_start(); ?>
+<?php
+session_start();
+
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,7 +33,7 @@
                 <div class="button-container">
                     <center>
                     <a href="update_profile.php" class="btn btn-info btn-round btn-lg">Edit Profile</a>
-                    <a href="login.php" class="btn btn-danger btn-round btn-lg" >Log Out</a>
+                    <a href="logout.php" class="btn btn-danger btn-round btn-lg" >Log Out</a>
                     </center>
                 </div>
             </div>

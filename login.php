@@ -1,3 +1,15 @@
+<?php
+
+$border = "";
+
+if (isset($_GET['valid'])) {
+    if ($_GET['valid'] == "false") {
+        $border = "border-danger";
+    }
+}
+
+?>
+
 <html lang="en">
 
 <head>
@@ -27,13 +39,16 @@
                     <div class="card">
                         <div class="card-body">
                             <form action="login_submit.php" method="POST">
+                                <div class="alert alert-danger <?php echo (isset($_GET['valid'])) ? "" : "d-none";  ?>" role="alert">
+                                    Invalid credentials
+                                </div>
                                 <div class="form-group">
                                     <label for="username">Username:</label>
-                                    <input type="text" class="form-control" id="username" name="username" required>
+                                    <input type="text" class="form-control <?php echo $border; ?>" id="username" name="username" value="<?php echo (isset($_GET['username'])) ? $_GET['username'] : "" ; ?>" required>
                                 </div>
                                 <div class="form-group mt-3">
                                     <label for="password">Password:</label>
-                                    <input type="password" class="form-control" id="password" name="password" required>
+                                    <input type="password" class="form-control <?php echo $border; ?>" id="password" name="password" required>
                                 </div>
                                 <button type="submit" class="btn btn-info mt-3">Login</button>
                             </form>
