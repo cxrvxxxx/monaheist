@@ -1,6 +1,13 @@
 <?php
+session_start();
+
+if (isset($_SESSION['username'])) {
+    header("Location: user_profile.php");
+    exit();
+}
 
 $border = "";
+
 
 if (isset($_GET['valid'])) {
     if ($_GET['valid'] == "false") {
@@ -39,16 +46,29 @@ if (isset($_GET['valid'])) {
                     <div class="card">
                         <div class="card-body">
                             <form action="login_submit.php" method="POST">
-                                <div class="alert alert-danger <?php echo (isset($_GET['valid'])) ? "" : "d-none";  ?>" role="alert">
+                                <div class="alert alert-success <?php echo (isset($_GET['registered'])) ? "" : "d-none"; ?>"
+                                    role="alert">
+                                    You are now registered
+                                </div>
+                                <div class="alert alert-warning <?php echo (isset($_GET['login'])) ? "" : "d-none"; ?>"
+                                    role="alert">
+                                    Please login first
+                                </div>
+                                <div class="alert alert-danger <?php echo (isset($_GET['valid'])) ? "" : "d-none"; ?>"
+                                    role="alert">
                                     Invalid credentials
                                 </div>
                                 <div class="form-group">
                                     <label for="username">Username:</label>
-                                    <input type="text" class="form-control <?php echo $border; ?>" id="username" name="username" value="<?php echo (isset($_GET['username'])) ? $_GET['username'] : "" ; ?>" required>
+                                    <input type="text" class="form-control <?php echo $border; ?>" id="username"
+                                        name="username"
+                                        value="<?php echo (isset($_GET['username'])) ? $_GET['username'] : ""; ?>"
+                                        required>
                                 </div>
                                 <div class="form-group mt-3">
                                     <label for="password">Password:</label>
-                                    <input type="password" class="form-control <?php echo $border; ?>" id="password" name="password" required>
+                                    <input type="password" class="form-control <?php echo $border; ?>" id="password"
+                                        name="password" required>
                                 </div>
                                 <button type="submit" class="btn btn-info mt-3">Login</button>
                             </form>
@@ -56,8 +76,8 @@ if (isset($_GET['valid'])) {
                     </div>
                 </div>
             </div>
-    </div>
-    <?php require_once 'includes/footer.php' ?>
+        </div>
+        <?php require_once 'includes/footer.php' ?>
 </body>
 
 </html>

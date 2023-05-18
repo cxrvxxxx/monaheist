@@ -9,12 +9,12 @@
 <body class="index-page sidebar-collapse">
     <?php require_once 'includes/header.php' ?>
     <div style='background-color:#ffff00'>
-            <center>
-                <p style="color:white">
-                <h2>Mona Heist</h2>
-                </p>
-            </center>
-        </div>
+        <center>
+            <p style="color:white">
+            <h2>Mona Heist</h2>
+            </p>
+        </center>
+    </div>
     <div class="container mt-5">
         <center>
             <p style="color:white">
@@ -27,6 +27,16 @@
                 <div class="card mt-3">
                     <div class="card-body">
                         <form action="register_submit.php" method="POST">
+                            <!-- ERROR: password mismatch -->
+                            <div class="alert alert-danger <?php echo (isset($_GET['registered'])) ? "" : "d-none"; ?>"
+                                role="alert">
+                                Passwords do not match
+                            </div>
+                            <!-- ERROR: existing username -->
+                            <div class="alert alert-danger <?php echo (isset($_GET['unique'])) ? "" : "d-none"; ?>"
+                                role="alert">
+                                Username already taken
+                            </div>
                             <!-- USERNAME -->
                             <div class="form-group">
                                 <label for="username">Username:</label>
@@ -48,23 +58,26 @@
                             <!-- BIRTHDAY -->
                             <div class="form-group row d-flex justify-content-center">
                                 <label for="birthdate">Birthdate:</label>
-                                <select type="number" name="month" class="form-select col-md-3 mx-1" id="birthdate" required>
+                                <select type="number" name="month" class="form-select col-md-3 mx-1" id="birthdate"
+                                    required>
                                     <option disabled selected value="">Month</option>
-                                    <?php for($i = 1 ; $i <= 12; $i++): ?>
+                                    <?php for ($i = 1; $i <= 12; $i++): ?>
                                         <option value="<?php echo $i ?>"><?php echo $i ?></option>
                                     <?php endfor; ?>
                                 </select>
 
-                                <select type="number" name="day" class="form-select col-md-3 mx-1" id="birthdate" required>
+                                <select type="number" name="day" class="form-select col-md-3 mx-1" id="birthdate"
+                                    required>
                                     <option disabled selected value="">Day</option>
-                                    <?php for($i = 1 ; $i <= 31; $i++): ?>
+                                    <?php for ($i = 1; $i <= 31; $i++): ?>
                                         <option value="<?php echo $i ?>"><?php echo $i ?></option>
                                     <?php endfor; ?>
                                 </select>
-                                
-                                <select type="number" name="year" class="form-select col-md-4 mx-1" id="birthdate"  required>
-                                <option disabled selected value="">Year</option>
-                                    <?php for($i = 1940 ; $i <= date('Y'); $i++): ?>
+
+                                <select type="number" name="year" class="form-select col-md-4 mx-1" id="birthdate"
+                                    required>
+                                    <option disabled selected value="">Year</option>
+                                    <?php for ($i = 1940; $i <= date('Y'); $i++): ?>
                                         <option value="<?php echo $i ?>"><?php echo $i ?></option>
                                     <?php endfor; ?>
                                 </select>

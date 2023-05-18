@@ -9,7 +9,8 @@ $result = $dbh->login($username, $password);
 $user = $dbh->getUser($username, $password);
 
 if ($result) {
-    session_start();
+	session_start();
+	$_SESSION['userId'] = $user->getId();
 	$_SESSION['username'] = $user->getUsername();
 	$_SESSION['firstname'] = $user->getFirstname();
 	$_SESSION['lastname'] = $user->getLastname();
@@ -18,7 +19,7 @@ if ($result) {
 	$_SESSION['playerId'] = $user->getPlayerId();
 	header("Location: user_profile.php");
 } else {
-    header("Location: login.php?valid=false&username=" . $username);
+	header("Location: login.php?valid=false&username=" . $username);
 }
 
 exit();
