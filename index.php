@@ -65,10 +65,10 @@
             <div class="container">
                 <h2 class="title">Archons</h2>
                 <div class="team">
-                    <div class="row">
+                    <div class="row d-flex justify-content-center">
 
                         <!-- DANIEL GILBERT DELA PENA -->
-                        <div class="col-md-4">
+                        <div class="col-md-4 mt-5">
                             <div class="team-player">
                                 <img src="images/daniel2.png" alt="Thumbnail Image"
                                     class="rounded-circle img-fluid img-raised" width="200" height="200">
@@ -82,7 +82,7 @@
                         </div>
 
                         <!-- DAWN RAINE DY -->
-                        <div class="col-md-4">
+                        <div class="col-md-4 mt-5">
                             <div class="team-player">
                                 <img src="images/dawn.jpg" alt="Thumbnail Image"
                                     class="rounded-circle img-fluid img-raised" width="200" height="200">
@@ -96,7 +96,7 @@
                         </div>
 
                         <!-- BRENT URIEL EMPASIS -->
-                        <div class="col-md-4">
+                        <div class="col-md-4 mt-5">
                             <div class="team-player">
                                 <img src="images/brent.jpg" alt="Thumbnail Image"
                                     class="rounded-circle img-fluid img-raised" width="200" height="200">
@@ -110,7 +110,7 @@
                         </div>
 
                         <!-- CEDRICK CLLOYD PAGLINAWAN -->
-                        <div class="col-md-4">
+                        <div class="col-md-4 mt-5">
                             <div class="team-player">
                                 <img src="images/ced.jpg" alt="Thumbnail Image"
                                     class="rounded-circle img-fluid img-raised" width="200" height="200">
@@ -124,7 +124,7 @@
                         </div>
 
                         <!-- MICHAEL SECUYA -->
-                        <div class="col-md-4">
+                        <div class="col-md-4 mt-5">
                             <div class="team-player">
                                 <img src="images/michael.jpg" alt="Thumbnail Image"
                                     class="rounded-circle img-fluid img-raised" width="200" height="200">
