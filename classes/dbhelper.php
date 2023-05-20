@@ -603,9 +603,6 @@ class DBHelper
 
     public function deleteDeveloper(Developer $developer)
     {
-        $sql = "UPDATE tblPerk SET devId=null WHERE devId=" . $developer->getId();
-        $this->conn->query($sql);
-
         $sql = "SET FOREIGN_KEY_CHECKS=0";
         $this->conn->query($sql);
 
