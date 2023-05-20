@@ -73,7 +73,7 @@
                                 <img src="images/daniel2.png" alt="Thumbnail Image"
                                     class="rounded-circle img-fluid img-raised" width="200" height="200">
                                 <h4 class="title">Daniel</h4>
-                                <p class="category text-dark">Transracial</p>
+                                <p class="category text-dark">Valorant Demon</p>
                                 <p class="description">
                                     Daniel Gilbert Dela Peña, a Sophomore student in Bachelor of Science in
                                     Information Technology, who peaked Diamond 2.
@@ -89,8 +89,8 @@
                                 <h4 class="title">Dawn</h4>
                                 <p class="category text-dark">The Only Girl in the Team</p>
                                 <p class="description">
-                                    Dawn Raine Dy, a Sophomore student in Bachelor of Science in
-                                    Information Technology, who is here just because.
+                                    Dawn Raine Dy is a Sophomore student in Bachelor of Science in
+                                    Information Technology, who did the frontend of the system.
                                 </p>
                             </div>
                         </div>
@@ -104,7 +104,7 @@
                                 <p class="category text-dark">The Carry</p>
                                 <p class="description">
                                     Brent Uriel Empasis, a Sophomore student in Bachelor of Science in
-                                    Information Technology, who singehandedly did everything.
+                                    Information Technology, who did the backend of our system.
                                 </p>
                             </div>
                         </div>
@@ -123,7 +123,7 @@
                             </div>
                         </div>
 
-                        <!-- MICHAEL SECUYA -->
+                        <!-- FRANCIS MICHAEL SECUYA -->
                         <div class="col-md-4 mt-5">
                             <div class="team-player">
                                 <img src="images/michael.jpg" alt="Thumbnail Image"
